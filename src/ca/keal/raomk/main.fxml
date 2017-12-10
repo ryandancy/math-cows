@@ -6,26 +6,44 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ca.keal.raomk.Controller"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane fx:id="mainPane"
+        xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="ca.keal.raomk.Controller"
+        stylesheets="@main.css"
+        prefHeight="400.0" prefWidth="600.0">
     
-    <Canvas AnchorPane.topAnchor="0"
+    <Canvas fx:id="canvas"
+            AnchorPane.topAnchor="0"
             AnchorPane.rightAnchor="0"
             AnchorPane.leftAnchor="0"
             AnchorPane.bottomAnchor="0" />
     
-    <GridPane AnchorPane.bottomAnchor="10"
-              AnchorPane.leftAnchor="10"
-              AnchorPane.rightAnchor="10"
-              vgap="20" hgap="10">
+    <GridPane fx:id="drgrid"
+            AnchorPane.bottomAnchor="10"
+            AnchorPane.leftAnchor="10"
+            AnchorPane.rightAnchor="10"
+            vgap="20" hgap="10">
         
-        <Text text="Domain:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <TextField GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Text fx:id="domainText"
+                text="Domain:"
+                GridPane.columnIndex="0"
+                GridPane.rowIndex="0"
+                styleClass="drlabel" />
+        <TextField fx:id="domainTextBox"
+                GridPane.columnIndex="1"
+                GridPane.rowIndex="0"
+                styleClass="drtextbox" />
         
-        <Text text="Range:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Text fx:id="rangeText"
+                text="Range:"
+                GridPane.columnIndex="0"
+                GridPane.rowIndex="1"
+                styleClass="drlabel" />
+        <TextField fx:id="rangeTextBox"
+                GridPane.columnIndex="1"
+                GridPane.rowIndex="1"
+                styleClass="drtextbox" />
         
     </GridPane>
     
