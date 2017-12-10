@@ -21,6 +21,9 @@ public class Ranch {
     private Canvas layer1; // probably cows
     private Canvas layer2; // probably fences
     
+    private double offsetX = 0;
+    private double offsetY = 0;
+    
     public Ranch(Canvas layerBg, Canvas layer1, Canvas layer2) {
         this.layerBg = layerBg;
         this.layer1 = layer1;
@@ -33,8 +36,13 @@ public class Ranch {
         layerBg.heightProperty().addListener((prop, oldHeight, newHeight) -> redraw());
     }
     
+    public void shiftBy(double shiftX, double shiftY) {
+        offsetX += shiftX;
+        offsetY += shiftY;
+        redraw();
+    }
+    
     private void redraw() {
-        // TODO offsets maybe for scrolling/dragging
         drawBackground();
     }
     
@@ -46,8 +54,8 @@ public class Ranch {
         gc.fillRect(0, 0, layerBg.getWidth(), layerBg.getHeight());
         
         // The coordinates of the origin - TODO make these dynamic if scrolling/dragging
-        double originX = layerBg.getWidth() / 2;
-        double originY = layerBg.getHeight() / 2;
+        double originX = layerBg.getWidth() / 2 + offsetX;
+        double originY = layerBg.getHeight() / 2 + offsetY;
         
         // Grid lines + numbers
         gc.setLineWidth(1);

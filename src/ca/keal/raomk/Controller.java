@@ -6,12 +6,15 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 
 public class Controller {
     
     // padding between the canvases and the D/R grid
     private static final int CANVAS_DRGRID_PADDING = 20;
+    
+    @FXML private Pane root;
     
     // Canvas layers
     @FXML private Canvas layerBg;
@@ -25,10 +28,29 @@ public class Controller {
     
     private Ranch ranch;
     
+    // for dragging
+    private double startDragX;
+    private double startDragY;
+    
     @FXML
     public void initialize() {
         setupExpandNodes();
         ranch = new Ranch(layerBg, layer1, layer2);
+        
+        // Allow dragging the ranch
+        for (Canvas layer : new Canvas[] {layerBg, layer1, layer2}) {
+            layer.setOnMousePressed(event -> {
+                startDragX = event.getScreenX();
+                startDragY = event.getScreenY();
+                event.consume();
+            });
+            layer.setOnMouseDragged(event -> {
+                ranch.shiftBy(event.getScreenX() - startDragX, event.getScreenY() - startDragY);
+                startDragX = event.getScreenX();
+                startDragY = event.getScreenY();
+                event.consume();
+            });
+        }
     }
     
     // Fix expansion of nodes that can't be expanded via FXML
