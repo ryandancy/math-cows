@@ -6,14 +6,24 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainPane"
+<AnchorPane fx:id="root"
         xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
         fx:controller="ca.keal.raomk.Controller"
         stylesheets="@main.css"
-        prefHeight="400.0" prefWidth="600.0">
+        prefHeight="600.0" prefWidth="800.0">
     
-    <Canvas fx:id="canvas"
+    <Canvas fx:id="layerBg"
+            AnchorPane.topAnchor="0"
+            AnchorPane.rightAnchor="0"
+            AnchorPane.leftAnchor="0"
+            AnchorPane.bottomAnchor="0" />
+    <Canvas fx:id="layer1"
+            AnchorPane.topAnchor="0"
+            AnchorPane.rightAnchor="0"
+            AnchorPane.leftAnchor="0"
+            AnchorPane.bottomAnchor="0" />
+    <Canvas fx:id="layer2"
             AnchorPane.topAnchor="0"
             AnchorPane.rightAnchor="0"
             AnchorPane.leftAnchor="0"
