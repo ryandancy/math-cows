@@ -3,20 +3,15 @@ package ca.keal.raomk;
 import javafx.beans.binding.DoubleBinding;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import javafx.scene.paint.Color;
 
 public class Controller {
     
     // padding between the canvases and the D/R grid
     private static final int CANVAS_DRGRID_PADDING = 20;
-    
-    @FXML private Pane root;
     
     // Canvas layers
     @FXML private Canvas layerBg;
@@ -28,13 +23,15 @@ public class Controller {
     @FXML private TextField domainTextBox;
     @FXML private TextField rangeTextBox;
     
+    private Ranch ranch;
+    
     @FXML
     public void initialize() {
         setupExpandNodes();
-        drawBackground(layerBg.getGraphicsContext2D());
+        ranch = new Ranch(layerBg, layer1, layer2);
     }
     
-    // Expand nodes that can't be expanded via FXML
+    // Fix expansion of nodes that can't be expanded via FXML
     private void setupExpandNodes() {
         // Let the domain and range text boxes expand across the bottom of the screen
         ColumnConstraints col1 = new ColumnConstraints();
@@ -50,12 +47,6 @@ public class Controller {
             layer.setWidth(Main.WIDTH);
             layer.heightProperty().bind(heightBinding);
         }
-    }
-    
-    private void drawBackground(GraphicsContext gc) {
-        // TODO - if scrolling/dragging is added, take x/y offset
-        gc.setFill(Color.rgb(0x1e, 0x82, 0x00));
-        gc.fillRect(0, 0, layerBg.getWidth(), layerBg.getHeight());
     }
     
 }
