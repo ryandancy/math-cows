@@ -3,7 +3,6 @@ package ca.keal.raomk;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
@@ -21,9 +20,7 @@ public class Ranch {
     private static final Color GRID_LINE_COLOR = Color.rgb(0x0f, 0x50, 0x00);
     private static final Color TEXT_COLOR = Color.BLACK;
     
-    // positions of flowers, as coordinates on the plane (not as screen/origin coordinates!)
-    // alternate between flower1 and flower2
-    private double[][] flowerPositions = new double[80][2];
+    private Flower[] flowers = new Flower[80];
     private static final double MAX_FLOWER_DIST = 40;
     private static final double FLOWER_WIDTH = 33.33;
     private static final double FLOWER_HEIGHT = 30;
@@ -31,9 +28,6 @@ public class Ranch {
     private Canvas layerBg; // background color, axes, grid, etc.
     private Canvas layer1; // probably cows
     private Canvas layer2; // probably fences
-    
-    private Image flower1;
-    private Image flower2;
     
     private double offsetX = 0;
     private double offsetY = 0;
@@ -45,14 +39,11 @@ public class Ranch {
         
         // Generate flower positions
         Random random = new Random();
-        for (int i = 0; i < flowerPositions.length; i++) {
-            for (int j = 0; j < 2; j++) {
-                flowerPositions[i][j] = random.nextDouble() * MAX_FLOWER_DIST * (random.nextBoolean() ? 1 : -1);
-            }
+        for (int i = 0; i < flowers.length; i++) {
+            flowers[i] = new Flower(new Position(
+                    random.nextDouble() * MAX_FLOWER_DIST * (random.nextBoolean() ? 1 : -1),
+                    random.nextDouble() * MAX_FLOWER_DIST * (random.nextBoolean() ? 1 : -1)), random);
         }
-        
-        flower1 = new Image("file:src/assets/flowers.png");
-        flower2 = new Image("file:src/assets/flowers2.png");
         
         redraw();
         
@@ -83,14 +74,11 @@ public class Ranch {
         double originY = layerBg.getHeight() / 2 + offsetY;
         
         // Flowers
-        boolean useFlower1 = true;
-        for (double[] pos : flowerPositions) {
-            double x = pos[0] * GRID_LINE_GAP + originX;
-            double y = pos[1] * GRID_LINE_GAP + originY;
-            if (x > -FLOWER_WIDTH && x < layerBg.getWidth() && y > -FLOWER_HEIGHT && y < layerBg.getHeight()) {
-                gc.drawImage(useFlower1 ? flower1 : flower2, x, y, FLOWER_WIDTH, FLOWER_HEIGHT);
+        for (Flower flower : flowers) {
+            if (flower.getPosition().isOnScreen(layerBg, originX, originY, GRID_LINE_GAP,
+                    FLOWER_WIDTH, FLOWER_HEIGHT)) {
+                flower.draw(gc, FLOWER_WIDTH, FLOWER_HEIGHT, originX, originY, GRID_LINE_GAP);
             }
-            useFlower1 = !useFlower1;
         }
         
         // Grid lines + numbers
