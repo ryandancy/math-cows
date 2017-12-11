@@ -6,8 +6,13 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -29,15 +34,17 @@ public class Ranch {
     private static final double FLOWER_WIDTH = 33.33;
     private static final double FLOWER_HEIGHT = 30;
     
+    private List<Cow> cows = new ArrayList<>();
+    
     private Canvas layerBg; // background color, axes, grid, etc.
-    private Canvas layer1; // probably cows
+    private Canvas layerCows;
     private Canvas layer2; // probably fences
     
-    private RanchView view;
+    @Getter private RanchView view;
     
-    public Ranch(Canvas layerBg, Canvas layer1, Canvas layer2) {
+    public Ranch(Canvas layerBg, Canvas layerCows, Canvas layer2) {
         this.layerBg = layerBg;
-        this.layer1 = layer1;
+        this.layerCows = layerCows;
         this.layer2 = layer2;
         
         view = new RanchView(GRID_LINE_GAP, layerBg);
@@ -57,6 +64,16 @@ public class Ranch {
         layerBg.heightProperty().addListener((prop, oldHeight, newHeight) -> redraw());
     }
     
+    public void addCow(@NonNull Cow cow) {
+        cows.add(cow);
+        drawCows();
+    }
+    
+    public void addCows(Collection<Cow> cows) {
+        this.cows.addAll(cows);
+        drawCows();
+    }
+    
     public void shiftBy(double shiftX, double shiftY) {
         view.shift(shiftX, shiftY);
         redraw();
@@ -64,6 +81,7 @@ public class Ranch {
     
     private void redraw() {
         drawBackground();
+        drawCows();
     }
     
     private void drawBackground() {
@@ -135,6 +153,11 @@ public class Ranch {
         gc.setLineWidth(3);
         gc.strokeLine(0, view.getOriginY(), layerBg.getWidth(), view.getOriginY()); // x-axis
         gc.strokeLine(view.getOriginX(), 0, view.getOriginX(), layerBg.getHeight()); // y-axis
+    }
+    
+    private void drawCows() {
+        layerCows.getGraphicsContext2D().clearRect(0, 0, layerCows.getWidth(), layerCows.getHeight());
+        cows.forEach(cow -> cow.draw(layerCows, view));
     }
     
 }

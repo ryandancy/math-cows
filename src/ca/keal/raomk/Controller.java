@@ -18,7 +18,7 @@ public class Controller {
     
     // Canvas layers
     @FXML private Canvas layerBg;
-    @FXML private Canvas layer1;
+    @FXML private Canvas layerCows;
     @FXML private Canvas layer2;
     
     // The domain and range entry grid
@@ -35,10 +35,10 @@ public class Controller {
     @FXML
     public void initialize() {
         setupExpandNodes();
-        ranch = new Ranch(layerBg, layer1, layer2);
+        ranch = new Ranch(layerBg, layerCows, layer2);
         
         // Allow dragging the ranch
-        for (Canvas layer : new Canvas[] {layerBg, layer1, layer2}) {
+        for (Canvas layer : new Canvas[] {layerBg, layerCows, layer2}) {
             layer.setOnMousePressed(event -> {
                 startDragX = event.getScreenX();
                 startDragY = event.getScreenY();
@@ -62,7 +62,7 @@ public class Controller {
         drgrid.getColumnConstraints().addAll(col1, col2);
     
         // Expand the canvas layers manually
-        Canvas[] layers = {layerBg, layer1, layer2};
+        Canvas[] layers = {layerBg, layerCows, layer2};
         // workaround for Main.HEIGHT - drgrid.height - CANVAS_DRGRID_PADDING
         DoubleBinding heightBinding = drgrid.heightProperty().negate().add(Main.HEIGHT).subtract(CANVAS_DRGRID_PADDING);
         for (Canvas layer : layers) {
