@@ -31,8 +31,6 @@ public class Ranch {
     
     private Flower[] flowers = new Flower[80];
     private static final double MAX_FLOWER_DIST = 40;
-    private static final double FLOWER_WIDTH = 33.33;
-    private static final double FLOWER_HEIGHT = 30;
     
     private List<Cow> cows = new ArrayList<>();
     
@@ -52,7 +50,7 @@ public class Ranch {
         // Generate flowers
         Random random = new Random();
         for (int i = 0; i < flowers.length; i++) {
-            flowers[i] = new Flower(new Position(
+            flowers[i] = Flower.random(new Position(
                     random.nextDouble() * MAX_FLOWER_DIST * (random.nextBoolean() ? 1 : -1),
                     random.nextDouble() * MAX_FLOWER_DIST * (random.nextBoolean() ? 1 : -1)), random);
         }
@@ -93,9 +91,7 @@ public class Ranch {
         
         // Flowers
         for (Flower flower : flowers) {
-            if (flower.getPosition().isOnScreen(layerBg, view, FLOWER_WIDTH, FLOWER_HEIGHT)) {
-                flower.draw(gc, view, FLOWER_WIDTH, FLOWER_HEIGHT);
-            }
+            flower.draw(layerBg, view);
         }
         
         // Grid lines + numbers

@@ -1,38 +1,27 @@
 package ca.keal.raomk;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.Random;
 
 /**
  * A flower on the field.
  */
-@AllArgsConstructor
-public class Flower {
+@EqualsAndHashCode(callSuper = true)
+@ToString
+public class Flower extends FieldItem {
     
-    @Getter private Position position;
-    private Type type;
+    private static final Image IMAGE1 = new Image("file:src/assets/flowers.png");
+    private static final Image IMAGE2 = new Image("file:src/assets/flowers2.png");
     
-    /** Generate a random type */
-    public Flower(Position position, Random random) {
-        this(position, Type.values()[random.nextInt(Type.values().length)]);
+    private Flower(Position position, Image image) {
+        super(position, image, 33.33, 30);
     }
     
-    public void draw(GraphicsContext gc, RanchView view, double width, double height) {
-        gc.drawImage(type.image, position.getCanvasX(view), position.getCanvasY(view), width, height);
-    }
-    
-    public enum Type {
-        ONE("file:src/assets/flowers.png"), TWO("file:src/assets/flowers2.png");
-        
-        final Image image;
-        
-        Type(String url) {
-            image = new Image(url);
-        }
+    public static Flower random(Position position, Random random) {
+        return new Flower(position, random.nextBoolean() ? IMAGE1 : IMAGE2);
     }
     
 }
