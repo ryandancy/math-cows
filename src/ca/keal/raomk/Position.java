@@ -14,18 +14,17 @@ public class Position {
     private double x;
     private double y;
     
-    public double getCanvasX(double originX, double pxPerUnit) {
-        return x * pxPerUnit + originX;
+    public double getCanvasX(RanchView view) {
+        return x * view.getGridLineGap() + view.getOriginX();
     }
     
-    public double getCanvasY(double originY, double pxPerUnit) {
-        return y * pxPerUnit + originY;
+    public double getCanvasY(RanchView view) {
+        return y * view.getGridLineGap() + view.getOriginY();
     }
     
-    public boolean isOnScreen(Canvas canvas, double originX, double originY, double pxPerUnit,
-                              double bufferX, double bufferY) {
-        double cx = getCanvasX(originX, pxPerUnit);
-        double cy = getCanvasY(originY, pxPerUnit);
+    public boolean isOnScreen(Canvas canvas, RanchView view, double bufferX, double bufferY) {
+        double cx = getCanvasX(view);
+        double cy = getCanvasY(view);
         return cx > -bufferX && cy > -bufferY && cx < canvas.getWidth() + bufferX && cy < canvas.getHeight() + bufferY;
     }
     

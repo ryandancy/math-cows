@@ -21,10 +21,8 @@ public class Flower {
         this(position, Type.values()[random.nextInt(Type.values().length)]);
     }
     
-    public void draw(GraphicsContext gc, double width, double height, double originX, double originY,
-                     double pxPerUnit) {
-        gc.drawImage(type.image, position.getCanvasX(originX, pxPerUnit), position.getCanvasY(originY, pxPerUnit),
-                width, height);
+    public void draw(GraphicsContext gc, RanchView view, double width, double height) {
+        gc.drawImage(type.image, position.getCanvasX(view), position.getCanvasY(view), width, height);
     }
     
     public enum Type {

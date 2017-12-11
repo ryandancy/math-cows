@@ -5,12 +5,16 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.Random;
 
 /**
  * Represents Gumdrop Joe's ranch where he raises his math cows. It's a cartesian plane.
  */
+@EqualsAndHashCode
+@ToString
 public class Ranch {
     
     private static final double GRID_LINE_GAP = 30;
@@ -29,15 +33,16 @@ public class Ranch {
     private Canvas layer1; // probably cows
     private Canvas layer2; // probably fences
     
-    private double offsetX = 0;
-    private double offsetY = 0;
+    private RanchView view;
     
     public Ranch(Canvas layerBg, Canvas layer1, Canvas layer2) {
         this.layerBg = layerBg;
         this.layer1 = layer1;
         this.layer2 = layer2;
         
-        // Generate flower positions
+        view = new RanchView(GRID_LINE_GAP, layerBg);
+        
+        // Generate flowers
         Random random = new Random();
         for (int i = 0; i < flowers.length; i++) {
             flowers[i] = new Flower(new Position(
@@ -53,8 +58,7 @@ public class Ranch {
     }
     
     public void shiftBy(double shiftX, double shiftY) {
-        offsetX += shiftX;
-        offsetY += shiftY;
+        view.shift(shiftX, shiftY);
         redraw();
     }
     
@@ -69,15 +73,10 @@ public class Ranch {
         gc.setFill(BACKGROUND_COLOR);
         gc.fillRect(0, 0, layerBg.getWidth(), layerBg.getHeight());
         
-        // The coordinates of the origin
-        double originX = layerBg.getWidth() / 2 + offsetX;
-        double originY = layerBg.getHeight() / 2 + offsetY;
-        
         // Flowers
         for (Flower flower : flowers) {
-            if (flower.getPosition().isOnScreen(layerBg, originX, originY, GRID_LINE_GAP,
-                    FLOWER_WIDTH, FLOWER_HEIGHT)) {
-                flower.draw(gc, FLOWER_WIDTH, FLOWER_HEIGHT, originX, originY, GRID_LINE_GAP);
+            if (flower.getPosition().isOnScreen(layerBg, view, FLOWER_WIDTH, FLOWER_HEIGHT)) {
+                flower.draw(gc, view, FLOWER_WIDTH, FLOWER_HEIGHT);
             }
         }
         
@@ -88,21 +87,22 @@ public class Ranch {
         
         // vertical lines for x > 0
         int i = 1;
-        for (double x = originX + GRID_LINE_GAP; x < layerBg.getWidth() + DRAWING_BUFFER; x += GRID_LINE_GAP) {
+        for (double x = view.getOriginX() + view.getGridLineGap(); x < layerBg.getWidth() + DRAWING_BUFFER;
+             x += view.getGridLineGap()) {
             gc.setStroke(GRID_LINE_COLOR);
             gc.strokeLine(x, 0, x, layerBg.getHeight());
             gc.setStroke(TEXT_COLOR);
-            gc.strokeText(Integer.toString(i), x, originY);
+            gc.strokeText(Integer.toString(i), x, view.getOriginY());
             i++;
         }
         
         // vertical lines for x < 0
         i = -1;
-        for (double x = originX - GRID_LINE_GAP; x > -DRAWING_BUFFER; x -= GRID_LINE_GAP) {
+        for (double x = view.getOriginX() - view.getGridLineGap(); x > -DRAWING_BUFFER; x -= view.getGridLineGap()) {
             gc.setStroke(GRID_LINE_COLOR);
             gc.strokeLine(x, 0, x, layerBg.getHeight());
             gc.setStroke(TEXT_COLOR);
-            gc.strokeText(Integer.toString(i), x, originY);
+            gc.strokeText(Integer.toString(i), x, view.getOriginY());
             i--;
         }
         
@@ -111,29 +111,30 @@ public class Ranch {
         
         // horizontal lines for y > 0 (note the JavaFX coordinate grid increases downwards)
         i = -1;
-        for (double y = originY + GRID_LINE_GAP; y < layerBg.getHeight() + DRAWING_BUFFER; y += GRID_LINE_GAP) {
+        for (double y = view.getOriginY() + view.getGridLineGap(); y < layerBg.getHeight() + DRAWING_BUFFER;
+             y += view.getGridLineGap()) {
             gc.setStroke(GRID_LINE_COLOR);
             gc.strokeLine(0, y, layerBg.getWidth(), y);
             gc.setStroke(TEXT_COLOR);
-            gc.strokeText(Integer.toString(i), originX + 3, y);
+            gc.strokeText(Integer.toString(i), view.getOriginX() + 3, y);
             i--;
         }
         
         // horizontal lines for y < 0
         i = 1;
-        for (double y = originY - GRID_LINE_GAP; y > -DRAWING_BUFFER; y -= GRID_LINE_GAP) {
+        for (double y = view.getOriginY() - view.getGridLineGap(); y > -DRAWING_BUFFER; y -= view.getGridLineGap()) {
             gc.setStroke(GRID_LINE_COLOR);
             gc.strokeLine(0, y, layerBg.getWidth(), y);
             gc.setStroke(TEXT_COLOR);
-            gc.strokeText(Integer.toString(i), originX + 3, y);
+            gc.strokeText(Integer.toString(i), view.getOriginX() + 3, y);
             i++;
         }
-    
+        
         // Axes
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(3);
-        gc.strokeLine(0, originY, layerBg.getWidth(), originY); // x-axis
-        gc.strokeLine(originX, 0, originX, layerBg.getHeight()); // y-axis
+        gc.strokeLine(0, view.getOriginY(), layerBg.getWidth(), view.getOriginY()); // x-axis
+        gc.strokeLine(view.getOriginX(), 0, view.getOriginX(), layerBg.getHeight()); // y-axis
     }
     
 }
