@@ -31,6 +31,22 @@ public class Position {
         return y * view.getGridLineGap() + view.getOriginY();
     }
     
+    /**
+     * Get the canvas x coordinate shifted such that a box of {@code width} would be centred when drawn at the return
+     * value x.
+     */
+    public double getCenteredCanvasX(RanchView view, double width) {
+        return getCanvasX(view) - (width/2);
+    }
+    
+    /**
+     * Get the canvas y coordinate shifted such that a box of {@code height} would be centred when drawn at the return
+     * value y.
+     */
+    public double getCenteredCanvasY(RanchView view, double height) {
+        return getCanvasY(view) - (height/2);
+    }
+    
     public boolean isOnScreen(Canvas canvas, RanchView view, double bufferX, double bufferY) {
         double cx = getCanvasX(view);
         double cy = getCanvasY(view);

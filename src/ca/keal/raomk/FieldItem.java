@@ -17,11 +17,13 @@ public abstract class FieldItem {
     private final double maxWidth;
     private final double maxHeight;
     
+    /** Draw the FieldItem. Note: draws it centered. */
     public void draw(Canvas canvas, RanchView view) {
         double imageWidth = image.getWidth();
         double imageHeight = image.getHeight();
         double aspectRatio = imageWidth / imageHeight;
         
+        // don't let the width or height exceed maxWidth/maxHeight by setting one to it
         double width, height;
         if (imageWidth > imageHeight) {
             width = maxWidth;
@@ -32,8 +34,11 @@ public abstract class FieldItem {
         }
         
         if (position.isOnScreen(canvas, view, width, height)) {
-            canvas.getGraphicsContext2D().drawImage(
-                    image, position.getCanvasX(view), position.getCanvasY(view), width, height);
+            // center the image on position
+            canvas.getGraphicsContext2D().drawImage(image,
+                    position.getCenteredCanvasX(view, width),
+                    position.getCenteredCanvasY(view, height),
+                    width, height);
         }
     }
     
