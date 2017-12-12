@@ -35,11 +35,21 @@ public class Interval {
         return lowerBound.lessThan(number) && upperBound.greaterThan(number);
     }
     
+    @Override
+    public String toString() {
+        return (lowerBound.isInclusive() ? "[" : "(")
+                + lowerBound.getNumber() + ", " + upperBound.getNumber()
+                + (upperBound.isInclusive() ? "]" : ")");
+    }
+    
     /**
      * Each bound of an interval - inclusive or exclusive, orderable.
      */
     @Data
     public static class Bound implements Comparable<Bound> {
+        
+        public static final Bound INFINITY = new Bound(Double.POSITIVE_INFINITY, false);
+        public static final Bound NEG_INFINITY = new Bound(Double.NEGATIVE_INFINITY, false);
         
         private final double number;
         private final boolean inclusive;
