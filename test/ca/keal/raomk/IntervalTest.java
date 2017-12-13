@@ -69,6 +69,83 @@ class IntervalTest {
         );
     }
     
+    @Test
+    void overlaps() throws Interval.EqualBoundsException {
+        Interval interval1 = new Interval(new Interval.Bound(-10, true), new Interval.Bound(2, false));
+        Interval interval2 = new Interval(new Interval.Bound(-2, true), new Interval.Bound(10, false));
+        Interval interval3 = new Interval(new Interval.Bound(5, true), new Interval.Bound(13, false));
+        assertAll(
+                () -> assertTrue(interval1.overlaps(interval2)),
+                () -> assertTrue(interval2.overlaps(interval1)),
+                () -> assertFalse(interval1.overlaps(interval3)),
+                () -> assertFalse(interval3.overlaps(interval1))
+        );
+    }
+    
+    @Test
+    void overlapsJustMeetingTwoExclusiveGivesFalse() throws Interval.EqualBoundsException {
+        Interval interval1 = new Interval(new Interval.Bound(-10, true), new Interval.Bound(0, false));
+        Interval interval2 = new Interval(new Interval.Bound(0, false), new Interval.Bound(10, true));
+        assertAll(
+                () -> assertFalse(interval1.overlaps(interval2)),
+                () -> assertFalse(interval2.overlaps(interval1))
+        );
+    }
+    
+    @Test
+    void overlapsJustMeetingTwoInclusiveGivesTrue() throws Interval.EqualBoundsException {
+        Interval interval1 = new Interval(new Interval.Bound(-10, true), new Interval.Bound(0, true));
+        Interval interval2 = new Interval(new Interval.Bound(0, true), new Interval.Bound(10, true));
+        assertAll(
+                () -> assertTrue(interval1.overlaps(interval2)),
+                () -> assertTrue(interval2.overlaps(interval1))
+        );
+    }
+    
+    @Test
+    void overlapsJustMeetingInclusiveExclusiveGivesTrue() throws Interval.EqualBoundsException {
+        Interval interval1 = new Interval(new Interval.Bound(-10, true), new Interval.Bound(0, false));
+        Interval interval2 = new Interval(new Interval.Bound(0, true), new Interval.Bound(10, true));
+        assertAll(
+                () -> assertTrue(interval1.overlaps(interval2)),
+                () -> assertTrue(interval2.overlaps(interval1))
+        );
+    }
+    
+    @Test
+    void overlapsJustMeetingExclusiveInclusiveGivesTrue() throws Interval.EqualBoundsException {
+        Interval interval1 = new Interval(new Interval.Bound(-10, true), new Interval.Bound(0, true));
+        Interval interval2 = new Interval(new Interval.Bound(0, false), new Interval.Bound(10, true));
+        assertAll(
+                () -> assertTrue(interval1.overlaps(interval2)),
+                () -> assertTrue(interval2.overlaps(interval1))
+        );
+    }
+    
+    @Test
+    void overlapsWithInfinities() throws Interval.EqualBoundsException {
+        Interval interval1 = new Interval(Interval.Bound.INFINITY, new Interval.Bound(-1, true));
+        Interval interval2 = new Interval(Interval.Bound.INFINITY, new Interval.Bound(0, true));
+        Interval interval3 = new Interval(Interval.Bound.NEG_INFINITY, new Interval.Bound(1, true));
+        Interval interval4 = new Interval(Interval.Bound.NEG_INFINITY, new Interval.Bound(-2, true));
+        assertAll(
+                () -> assertTrue(interval1.overlaps(interval2)),
+                () -> assertTrue(interval2.overlaps(interval1)),
+                () -> assertTrue(interval2.overlaps(interval3)),
+                () -> assertTrue(interval3.overlaps(interval2)),
+                () -> assertFalse(interval2.overlaps(interval4)),
+                () -> assertFalse(interval4.overlaps(interval2))
+        );
+    }
+    
+    @Test
+    void combine() throws Interval.EqualBoundsException {
+        Interval interval1 = new Interval(new Interval.Bound(-10, true), new Interval.Bound(2, false));
+        Interval interval2 = new Interval(new Interval.Bound(-2, true), new Interval.Bound(10, false));
+        assertEquals(interval1.combine(interval2),
+                new Interval(new Interval.Bound(-10, true), new Interval.Bound(10, false)));
+    }
+    
     @Nested
     class BoundTest {
         
