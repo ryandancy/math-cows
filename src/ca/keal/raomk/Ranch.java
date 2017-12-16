@@ -32,18 +32,22 @@ public class Ranch {
     private Flower[] flowers = new Flower[80];
     private static final double MAX_FLOWER_DIST = 40;
     
+    @Getter private DomainRange domain = null;
+    @Getter private DomainRange range = null;
+    private List<Fence> fences = new ArrayList<>();
+    
     private List<Cow> cows = new ArrayList<>();
     
     private Canvas layerBg; // background color, axes, grid, etc.
     private Canvas layerCows;
-    private Canvas layer2; // probably fences
+    private Canvas layerFences;
     
     @Getter private RanchView view;
     
-    public Ranch(Canvas layerBg, Canvas layerCows, Canvas layer2) {
+    public Ranch(Canvas layerBg, Canvas layerCows, Canvas layerFences) {
         this.layerBg = layerBg;
         this.layerCows = layerCows;
-        this.layer2 = layer2;
+        this.layerFences = layerFences;
         
         view = new RanchView(GRID_LINE_GAP, layerBg);
         
@@ -72,6 +76,34 @@ public class Ranch {
         drawCows();
     }
     
+    public void setDomain(DomainRange domain) {
+        this.domain = domain;
+        updateFences();
+    }
+    
+    public void setRange(DomainRange range) {
+        this.range = range;
+        updateFences();
+    }
+    
+    private void updateFences() {
+        fences = new ArrayList<>(); // clear fences
+        
+        // Domain fences are vertical, range fences are horizontal
+        if (domain != null) {
+            domain.getIntervals().stream()
+                    .map(interval -> Fence.intervalToFences(interval, Fence.Orientation.VERTICAL))
+                    .forEach(fences::addAll);
+        }
+        if (range != null) {
+            range.getIntervals().stream()
+                    .map(interval -> Fence.intervalToFences(interval, Fence.Orientation.HORIZONTAL))
+                    .forEach(fences::addAll);
+        }
+        
+        drawFences();
+    }
+    
     public void shiftBy(double shiftX, double shiftY) {
         view.shift(shiftX, shiftY);
         redraw();
@@ -80,6 +112,7 @@ public class Ranch {
     private void redraw() {
         drawBackground();
         drawCows();
+        drawFences();
     }
     
     private void drawBackground() {
@@ -154,6 +187,11 @@ public class Ranch {
     private void drawCows() {
         layerCows.getGraphicsContext2D().clearRect(0, 0, layerCows.getWidth(), layerCows.getHeight());
         cows.forEach(cow -> cow.draw(layerCows, view));
+    }
+    
+    private void drawFences() {
+        layerFences.getGraphicsContext2D().clearRect(0, 0, layerFences.getWidth(), layerFences.getHeight());
+        fences.forEach(fence -> fence.draw(layerFences, view));
     }
     
 }

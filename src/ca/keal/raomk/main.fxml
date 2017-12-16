@@ -23,7 +23,7 @@
             AnchorPane.rightAnchor="0"
             AnchorPane.leftAnchor="0"
             AnchorPane.bottomAnchor="0" />
-    <Canvas fx:id="layer2"
+    <Canvas fx:id="layerFences"
             AnchorPane.topAnchor="0"
             AnchorPane.rightAnchor="0"
             AnchorPane.leftAnchor="0"
