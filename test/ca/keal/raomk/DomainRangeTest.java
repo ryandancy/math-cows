@@ -8,6 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DomainRangeTest {
     
@@ -97,5 +98,45 @@ class DomainRangeTest {
                         new Interval(new Interval.Bound(12, true), Interval.Bound.INFINITY))
         );
     }
+    
+    @Test
+    void parseComprehensiveSuccess() throws ParseException, Interval.EqualBoundsException {
+        String drStr = "x < -4.5 or 20 <= x or -1 < x ≤ 2 or 10 >= x ≥ 1.2";
+        List<Interval> expectedIntervals = new ArrayList<>(Arrays.asList(
+                new Interval(Interval.Bound.NEG_INFINITY, new Interval.Bound(-4.5, false)),
+                new Interval(new Interval.Bound(20, true), Interval.Bound.INFINITY),
+                new Interval(-1, false, 2, true),
+                new Interval(1.2, true, 10, true)));
+        DomainRange expected = new DomainRange(expectedIntervals);
+        DomainRange dr = DomainRange.parse(drStr, 'x');
+        assertEquals(expected, dr);
+    }
+    
+    @Test
+    void parseIllegalTokensFails() {
+        assertThrows(ParseException.class, () -> DomainRange.parse("0jF*S", 'x'));
+    }
+    
+    @Test
+    void parseWrongVariableFails() {
+        assertThrows(ParseException.class, () -> DomainRange.parse("y > 2", 'x'));
+    }
+    
+    @Test
+    void parseOrAtBeginningFails() {
+        assertThrows(ParseException.class, () -> DomainRange.parse("or x > 4", 'x'));
+    }
+    
+    @Test
+    void parseDoubleOrFails() {
+        assertThrows(ParseException.class, () -> DomainRange.parse("2 < x < 5 or or x > 7", 'x'));
+    }
+    
+    @Test
+    void parseOrAtEndFails() {
+        assertThrows(ParseException.class, () -> DomainRange.parse("x < 3 or", 'x'));
+    }
+    
+    // The rest of the parse() tests are handled by Interval.parse()'s tests
     
 }

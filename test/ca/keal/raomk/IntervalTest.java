@@ -3,6 +3,8 @@ package ca.keal.raomk;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -214,6 +216,164 @@ class IntervalTest {
             );
         }
         
+    }
+    
+    @Test
+    void parseOneBoundVarFirstLt() throws ParseException, Interval.EqualBoundsException {
+        Interval expected = new Interval(Interval.Bound.NEG_INFINITY, new Interval.Bound(0, false));
+        Interval actual = Interval.parse(Arrays.asList("x", "<", "0"), 'x');
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void parseOneBoundVarFirstLe1() throws ParseException, Interval.EqualBoundsException {
+        Interval expected = new Interval(Interval.Bound.NEG_INFINITY, new Interval.Bound(0, true));
+        Interval actual = Interval.parse(Arrays.asList("x", "<=", "0"), 'x');
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void parseOneBoundVarFirstLe2() throws ParseException, Interval.EqualBoundsException {
+        Interval expected = new Interval(Interval.Bound.NEG_INFINITY, new Interval.Bound(0, true));
+        Interval actual = Interval.parse(Arrays.asList("x", "≤", "0"), 'x');
+        assertEquals(expected, actual);
+    }
+    @Test
+    void parseOneBoundVarFirstGt() throws ParseException, Interval.EqualBoundsException {
+        Interval expected = new Interval(new Interval.Bound(0, false), Interval.Bound.INFINITY);
+        Interval actual = Interval.parse(Arrays.asList("x", ">", "0"), 'x');
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void parseOneBoundVarFirstGe1() throws ParseException, Interval.EqualBoundsException {
+        Interval expected = new Interval(new Interval.Bound(0, true), Interval.Bound.INFINITY);
+        Interval actual = Interval.parse(Arrays.asList("x", ">=", "0"), 'x');
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void parseOneBoundVarFirstGe2() throws ParseException, Interval.EqualBoundsException {
+        Interval expected = new Interval(new Interval.Bound(0, true), Interval.Bound.INFINITY);
+        Interval actual = Interval.parse(Arrays.asList("x", "≥", "0"), 'x');
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void parseOneBoundVarLastLt() throws ParseException, Interval.EqualBoundsException {
+        Interval expected = new Interval(new Interval.Bound(0, false), Interval.Bound.INFINITY);
+        Interval actual = Interval.parse(Arrays.asList("0", "<", "x"), 'x');
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void parseOneBoundVarLastGt() throws ParseException, Interval.EqualBoundsException {
+        Interval expected = new Interval(Interval.Bound.NEG_INFINITY, new Interval.Bound(0, false));
+        Interval actual = Interval.parse(Arrays.asList("0", ">", "x"), 'x');
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void parseTwoBoundsBothLt() throws ParseException, Interval.EqualBoundsException {
+        Interval expected = new Interval(-1, false, 1, false);
+        Interval actual = Interval.parse(Arrays.asList("-1", "<", "y", "<", "1"), 'y');
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void parseTwoBoundsLtLe() throws ParseException, Interval.EqualBoundsException {
+        Interval expected = new Interval(-1, true, 1, false);
+        Interval actual = Interval.parse(Arrays.asList("-1", "<=", "y", "<", "1"), 'y');
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void parseTwoBoundsBothLe() throws ParseException, Interval.EqualBoundsException {
+        Interval expected = new Interval(-1, true, 1, true);
+        Interval actual = Interval.parse(Arrays.asList("-1", "≤", "y", "<=", "1"), 'y');
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void parseTwoBoundsBothGt() throws ParseException, Interval.EqualBoundsException {
+        Interval expected = new Interval(-1, false, 1, false);
+        Interval actual = Interval.parse(Arrays.asList("1", ">", "y", ">", "-1"), 'y');
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void parseTwoBoundsGtGe() throws ParseException, Interval.EqualBoundsException {
+        Interval expected = new Interval(-1, false, 1, true);
+        Interval actual = Interval.parse(Arrays.asList("1", ">=", "y", ">", "-1"), 'y');
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void parseTwoBoundsBothGe() throws ParseException, Interval.EqualBoundsException {
+        Interval expected = new Interval(-1, true, 1, true);
+        Interval actual = Interval.parse(Arrays.asList("1", "≥", "y", ">=", "-1"), 'y');
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void parseWrongNumberTokensFails() {
+        assertThrows(ParseException.class, () -> Interval.parse(Arrays.asList("T", ">", "2", "<"), 'T'));
+    }
+    
+    @Test
+    void parseIncorrectPatternFails() {
+        assertThrows(ParseException.class, () -> Interval.parse(Arrays.asList("<", "q", "<"), 'q'));
+    }
+    
+    @Test
+    void parseOneBoundTwoVariablesFails() {
+        assertThrows(ParseException.class, () -> Interval.parse(Arrays.asList("z", "<", "z"), 'z'));
+    }
+    
+    @Test
+    void parseOneBoundNoVariableFails() {
+        assertThrows(ParseException.class, () -> Interval.parse(Arrays.asList("1.4", ">=", "-61.153"), 'n'));
+    }
+    
+    @Test
+    void parseTwoBoundVariableFirstFails() {
+        assertThrows(ParseException.class, () -> Interval.parse(Arrays.asList("x", ">", "x", ">=", "2"), 'x'));
+    }
+    
+    @Test
+    void parseTwoBoundNumberMiddleFails() {
+        assertThrows(ParseException.class, () -> Interval.parse(Arrays.asList("1", "<", "3", "<", "5"), 'x'));
+    }
+    
+    @Test
+    void parseTwoBoundVariableLastFails() {
+        assertThrows(ParseException.class, () -> Interval.parse(Arrays.asList("1", ">=", "x", ">", "x"), 'x'));
+    }
+    
+    @Test
+    void parseTwoBoundOperatorMismatchPointingInwardsFails() {
+        assertThrows(ParseException.class, () -> Interval.parse(Arrays.asList("1", ">=", "x", "<", "5"), 'x'));
+    }
+    
+    @Test
+    void parseTwoBoundOperatorMismatchPointingOutwardsFails() {
+        assertThrows(ParseException.class, () -> Interval.parse(Arrays.asList("1", "<", "x", ">", "-5.3"), 'x'));
+    }
+    
+    @Test
+    void parseTwoBoundEqualBoundsFails() {
+        assertThrows(Interval.EqualBoundsException.class, () -> Interval.parse(
+                Arrays.asList("1", "<=", "x", "<=", "1"), 'x'));
+    }
+    
+    @Test
+    void parseTwoBoundLowerBoundGreaterThanUpperBoundLtFails() {
+        assertThrows(ParseException.class, () -> Interval.parse(Arrays.asList("1", "<", "x", "<", "-1"), 'x'));
+    }
+    
+    @Test
+    void parseTwoBoundLowerBoundGreaterThanUpperBoundGtFails() {
+        assertThrows(ParseException.class, () -> Interval.parse(Arrays.asList("-1", ">", "x", ">", "1"), 'x'));
     }
     
 }
