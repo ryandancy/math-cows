@@ -65,25 +65,23 @@ public class Fence {
     
     private void drawHorizontal(double x, GraphicsContext gc, RanchView view,
                                 double widthOneSegment, double heightOneSegment) {
-        double canvasCoord = coord * view.getGridLineGap() + view.getOriginY();
-        double adjustedY = canvasCoord - heightOneSegment;
+        double adjustedY = Position.cartesianToCanvasY(coord, view) - heightOneSegment;
         gc.drawImage(orientation.image, x, adjustedY, widthOneSegment, heightOneSegment);
     }
     
     private void drawVertical(double y, GraphicsContext gc, RanchView view,
                               double widthOneSegment, double heightOneSegment) {
-        double canvasCoord = coord * view.getGridLineGap() + view.getOriginX();
-        double adjustedX = canvasCoord - (widthOneSegment / 2);
+        double adjustedX = Position.cartesianToCanvasX(coord, view) - (widthOneSegment / 2);
         double adjustedY = y - heightOneSegment;
         gc.drawImage(orientation.image, adjustedX, adjustedY, widthOneSegment, heightOneSegment);
     }
     
     private boolean isOnScreen(Canvas canvas, RanchView view, double buffer) {
         if (orientation == Orientation.VERTICAL) {
-            double canvasX = coord * view.getGridLineGap() + view.getOriginX();
+            double canvasX = Position.cartesianToCanvasX(coord, view);
             return canvasX >= -buffer && canvasX <= canvas.getWidth() + buffer;
         } else {
-            double canvasY = coord * view.getGridLineGap() + view.getOriginY();
+            double canvasY = Position.cartesianToCanvasY(coord, view);
             return canvasY >= -buffer && canvasY <= canvas.getHeight() + buffer;
         }
     }

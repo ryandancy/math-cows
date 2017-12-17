@@ -5,30 +5,46 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * An ordered pair representing a position on the cartesian plane
+ * An ordered pair representing a position on the cartesian plane. Immutable.
  */
 @Data
 @AllArgsConstructor
 public class Position {
     
-    private double x;
-    private double y;
+    private final double x;
+    private final double y;
     
     /**
-     * Creates a Position from coordinates on a canvas
+     * Creates a Position from coordinates on a canvas.
      */
     public static Position fromCanvasCoords(RanchView view, double canvasX, double canvasY) {
-        double x = (canvasX - view.getOriginX()) / view.getGridLineGap();
-        double y = (canvasY - view.getOriginY()) / view.getGridLineGap();
-        return new Position(x, y);
+        return new Position(canvasToCartesianX(canvasX, view), canvasToCartesianY(canvasY, view));
     }
     
-    public double getCanvasX(RanchView view) {
+    public static double cartesianToCanvasX(double x, RanchView view) {
         return x * view.getGridLineGap() + view.getOriginX();
     }
     
+    public static double cartesianToCanvasY(double y, RanchView view) {
+        // inverted y because the canvas y is flipped from the cartesian y
+        return -y * view.getGridLineGap() + view.getOriginY();
+    }
+    
+    public static double canvasToCartesianX(double x, RanchView view) {
+        return (x - view.getOriginX()) / view.getGridLineGap();
+    }
+    
+    public static double canvasToCartesianY(double y, RanchView view) {
+        // inverted because the canvas y is flipped from the cartesian y
+        return -(y - view.getOriginY()) / view.getGridLineGap();
+    }
+    
+    public double getCanvasX(RanchView view) {
+        return cartesianToCanvasX(x, view);
+    }
+    
     public double getCanvasY(RanchView view) {
-        return y * view.getGridLineGap() + view.getOriginY();
+        return cartesianToCanvasY(y, view);
     }
     
     /**
