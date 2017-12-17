@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root"
-        xmlns="http://javafx.com/javafx"
+<AnchorPane xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
         fx:controller="ca.keal.raomk.Controller"
         stylesheets="@main.css"
@@ -35,25 +34,41 @@
             AnchorPane.rightAnchor="10"
             vgap="20" hgap="10">
         
-        <Text fx:id="domainText"
-                text="Domain:"
+        <Text text="Domain:"
                 GridPane.columnIndex="0"
                 GridPane.rowIndex="0"
                 styleClass="drlabel" />
+        <Text text="{ x |"
+                GridPane.columnIndex="1"
+                GridPane.rowIndex="0"
+                styleClass="drDecor" />
         <TextField fx:id="domainTextBox"
-                GridPane.columnIndex="1"
+                GridPane.columnIndex="2"
                 GridPane.rowIndex="0"
-                styleClass="drtextbox" />
+                onAction="#updateDomain"
+                styleClass="drTextBox" />
+        <Text text=", x &#8712; &#8477; }"
+              GridPane.columnIndex="3"
+              GridPane.rowIndex="0"
+              styleClass="drDecor" />
         
-        <Text fx:id="rangeText"
-                text="Range:"
+        <Text text="Range:"
                 GridPane.columnIndex="0"
                 GridPane.rowIndex="1"
                 styleClass="drlabel" />
+        <Text text="{ y |"
+              GridPane.columnIndex="1"
+              GridPane.rowIndex="1"
+              styleClass="drDecor" />
         <TextField fx:id="rangeTextBox"
-                GridPane.columnIndex="1"
+                GridPane.columnIndex="2"
                 GridPane.rowIndex="1"
-                styleClass="drtextbox" />
+                onAction="#updateRange"
+                styleClass="drTextBox" />
+        <Text text=", y &#8712; &#8477; }"
+              GridPane.columnIndex="3"
+              GridPane.rowIndex="1"
+              styleClass="drDecor" />
         
     </GridPane>
     

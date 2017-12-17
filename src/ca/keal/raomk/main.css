@@ -1,3 +1,18 @@
 #mainPane {
     -fx-background-color: white;
 }
+
+.drTextBox {
+    -fx-background-color: white;
+    -fx-border-color: #00ACFF;
+    -fx-border-width: 3px;
+    -fx-border-radius: 2px;
+}
+
+.drTextBox:error {
+    -fx-border-color: red;
+}
+
+.drDecor, .drTextBox {
+    -fx-font-size: 20px;
+}
