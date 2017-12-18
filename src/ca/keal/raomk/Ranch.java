@@ -38,16 +38,20 @@ public class Ranch {
     
     private List<Cow> cows = new ArrayList<>();
     
+    private GumdropJoe gumdropJoe = new GumdropJoe();
+    
     private Canvas layerBg; // background color, axes, grid, etc.
     private Canvas layerCows;
     private Canvas layerFences;
+    private Canvas layerGumdropJoe;
     
     @Getter private RanchView view;
     
-    public Ranch(Canvas layerBg, Canvas layerCows, Canvas layerFences) {
+    public Ranch(Canvas layerBg, Canvas layerCows, Canvas layerFences, Canvas layerGumdropJoe) {
         this.layerBg = layerBg;
         this.layerCows = layerCows;
         this.layerFences = layerFences;
+        this.layerGumdropJoe = layerGumdropJoe;
         
         view = new RanchView(GRID_LINE_GAP, layerBg);
         
@@ -104,6 +108,15 @@ public class Ranch {
         drawFences();
     }
     
+    public void gumdropJoeSay(String text) {
+        gumdropJoe.setText(text);
+    }
+    
+    public void gumdropJoeClear() {
+        gumdropJoeSay(null);
+        drawGumdropJoe();
+    }
+    
     public void shiftBy(double shiftX, double shiftY) {
         view.shift(shiftX, shiftY);
         redraw();
@@ -113,6 +126,7 @@ public class Ranch {
         drawBackground();
         drawCows();
         drawFences();
+        drawGumdropJoe();
     }
     
     private void drawBackground() {
@@ -192,6 +206,11 @@ public class Ranch {
     private void drawFences() {
         layerFences.getGraphicsContext2D().clearRect(0, 0, layerFences.getWidth(), layerFences.getHeight());
         fences.forEach(fence -> fence.draw(layerFences, view));
+    }
+    
+    private void drawGumdropJoe() {
+        layerGumdropJoe.getGraphicsContext2D().clearRect(0, 0, layerGumdropJoe.getWidth(), layerGumdropJoe.getHeight());
+        gumdropJoe.draw(layerGumdropJoe);
     }
     
 }
