@@ -46,6 +46,11 @@ public class GumdropJoe {
     }
     
     public void setText(String text) {
+        if (text == null) {
+            this.text = null;
+            return;
+        }
+        
         // Wrap the text by replacing ' ' with '\n'
         char[] charArray = text.toCharArray();
         lines = 1;
