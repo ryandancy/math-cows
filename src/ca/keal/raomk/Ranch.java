@@ -10,9 +10,12 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 
 /**
@@ -39,6 +42,8 @@ public class Ranch {
     private List<Cow> cows = new ArrayList<>();
     
     private GumdropJoe gumdropJoe = new GumdropJoe();
+    private Queue<String> gumdropJoeQueue = new ArrayDeque<>();
+    private boolean lastGumdropJoeClearable = true;
     
     private Canvas layerBg; // background color, axes, grid, etc.
     private Canvas layerCows;
@@ -68,6 +73,12 @@ public class Ranch {
         // using layerBg as representative of layers as hack to draw the background correctly
         // height may change during drawing so this ensures proper drawing of the background
         layerBg.heightProperty().addListener((prop, oldHeight, newHeight) -> redraw());
+        
+        // Add listeners to all layers
+        for (Canvas layer : new Canvas[] {layerBg, layerCows, layerFences, layerGumdropJoe}) {
+            // Process the Gumdrop Joe queue on click
+            layer.setOnMouseClicked(event -> processGumdropJoeQueue());
+        }
     }
     
     public void addCow(@NonNull Cow cow) {
@@ -110,11 +121,42 @@ public class Ranch {
     
     public void gumdropJoeSay(String text) {
         gumdropJoe.setText(text);
+        drawGumdropJoe();
+    }
+    
+    public void gumdropJoeSay(String text, boolean lastClearable) {
+        lastGumdropJoeClearable = lastClearable;
+        gumdropJoeSay(text);
     }
     
     public void gumdropJoeClear() {
+        lastGumdropJoeClearable = true;
         gumdropJoeSay(null);
         drawGumdropJoe();
+    }
+    
+    public void gumdropJoeQueue(boolean lastClearable, String... textsToQueue) {
+        lastGumdropJoeClearable = lastClearable;
+        
+        // Add "(click)" to all texts to queue, including last if it's clearable
+        for (int i = 0; i < (lastClearable ? textsToQueue.length : textsToQueue.length - 1); i++) {
+            textsToQueue[i] += " (click)";
+        }
+        
+        gumdropJoeQueue.addAll(Arrays.asList(textsToQueue));
+        processGumdropJoeQueue();
+    }
+    
+    // Pop the first element of the Gumdrop Joe queue, gumdropJoeSay() it
+    private void processGumdropJoeQueue() {
+        if (gumdropJoeQueue.isEmpty()) {
+            if (lastGumdropJoeClearable) {
+                gumdropJoeClear();
+            }
+            return;
+        }
+        
+        gumdropJoeSay(gumdropJoeQueue.remove());
     }
     
     public void shiftBy(double shiftX, double shiftY) {
