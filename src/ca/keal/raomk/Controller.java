@@ -32,6 +32,11 @@ public class Controller {
     
     private Ranch ranch;
     
+    private Level[] levels = {
+            new Level0()
+    };
+    private int levelNum;
+    
     // for dragging
     private double startDragX;
     private double startDragY;
@@ -55,6 +60,29 @@ public class Controller {
                 event.consume();
             });
         }
+        
+        restart();
+    }
+    
+    // In a separate method so as to allow restarting at the end if we decide to implement that
+    private void restart() {
+        levelNum = 0;
+        startLevel();
+    }
+    
+    private void startLevel() {
+        ranch.clearCows();
+        ranch.setDomain(null);
+        ranch.setRange(null);
+        ranch.gumdropJoeClear();
+        ranch.clearGumdropJoeQueue();
+        
+        if (levelNum >= levels.length) {
+            // Beyond the last level: TODO find something to do beyond the last level
+            return;
+        }
+        
+        levels[levelNum].init(ranch);
     }
     
     @FXML
@@ -68,16 +96,37 @@ public class Controller {
     }
     
     private void updateDR(TextField textBox, char var, Consumer<DomainRange> updater) {
+        if (textBox.getText().isEmpty()) {
+            // text box was cleared, not an error
+            updater.accept(null);
+            checkVictory();
+            textBox.pseudoClassStateChanged(ERROR_CLASS, true);
+            return;
+        }
+        
         try {
             updater.accept(DomainRange.parse(textBox.getText(), var));
             textBox.pseudoClassStateChanged(ERROR_CLASS, false);
+            checkVictory();
         } catch (ParseException | Interval.EqualBoundsException e) {
             updater.accept(null);
-            if (!textBox.getText().isEmpty()) {
-                // the user cleared the text box, not an error
-                textBox.pseudoClassStateChanged(ERROR_CLASS, true);
-            }
+            textBox.pseudoClassStateChanged(ERROR_CLASS, true);
         }
+    }
+    
+    private void checkVictory() {
+        if (areDRsEqual(ranch.getDomain(), levels[levelNum].getVictoryDomain())
+                && areDRsEqual(ranch.getRange(), levels[levelNum].getVictoryRange())) {
+            // Victory: TODO do some animation or something to signify victory
+            System.out.println("Victory!");
+            levelNum++;
+            startLevel();
+        }
+    }
+    
+    private boolean areDRsEqual(DomainRange one, DomainRange two) {
+        if (one == null) return two == null;
+        return one.equals(two);
     }
     
     // Fix expansion of nodes that can't be expanded via FXML

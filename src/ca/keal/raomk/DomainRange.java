@@ -28,6 +28,21 @@ public class DomainRange {
     }
     
     /**
+     * Parses a DomainRange. This is like {@link #parse(String, char)}, but for when the input is constant.
+     * This method simply does not throw any checked exceptions, instead wrapping them in a RuntimeException
+     * since the input should be determined not to have any errors.
+     */
+    public static DomainRange parseStatic(String input, char var) {
+        try {
+            return parse(input, var);
+        } catch (ParseException | Interval.EqualBoundsException e) {
+            System.err.println("Error in static parse of DomainRange");
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Parse a {@link DomainRange} from a string representation such as:
      * <ul>
      *     <li>3 &lt; x &le; 5</li>

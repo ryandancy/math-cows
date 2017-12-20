@@ -91,6 +91,11 @@ public class Ranch {
         drawCows();
     }
     
+    public void clearCows() {
+        cows.clear();
+        drawCows();
+    }
+    
     public void setDomain(DomainRange domain) {
         this.domain = domain;
         updateFences();
@@ -145,6 +150,11 @@ public class Ranch {
         
         gumdropJoeQueue.addAll(Arrays.asList(textsToQueue));
         processGumdropJoeQueue();
+    }
+    
+    public void clearGumdropJoeQueue() {
+        gumdropJoeQueue.clear();
+        gumdropJoeClear();
     }
     
     // Pop the first element of the Gumdrop Joe queue, gumdropJoeSay() it
