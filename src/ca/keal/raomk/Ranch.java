@@ -3,6 +3,7 @@ package ca.keal.raomk;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import lombok.EqualsAndHashCode;
@@ -17,6 +18,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
+import java.util.function.Supplier;
 
 /**
  * Represents Gumdrop Joe's ranch where he raises his math cows. It's a cartesian plane.
@@ -31,6 +33,10 @@ public class Ranch {
     private static final Color BACKGROUND_COLOR = Color.rgb(0x1e, 0x82, 0x00);
     private static final Color GRID_LINE_COLOR = Color.rgb(0x0f, 0x50, 0x00);
     private static final Color TEXT_COLOR = Color.BLACK;
+    
+    private static final double COW_DISTRIBUTION_DENSITY = 0.65; // cows per 1x1 box
+    private static final double COW_DISTRIBUTION_BUFFER = 0.5;
+    private static final Random COW_DISTRIBUTION_RANDOM = new Random();
     
     private Flower[] flowers = new Flower[80];
     private static final double MAX_FLOWER_DIST = 40;
@@ -88,6 +94,44 @@ public class Ranch {
     
     public void addCows(Collection<Cow> cows) {
         this.cows.addAll(cows);
+        drawCows();
+    }
+    
+    /** Distribute cows throughout the range defined by xSpread/ySpread. */
+    public void distributeCows(Interval xSpread, Interval ySpread, Supplier<Image> cowImageSupplier) {
+        double left = xSpread.getLowerBound().getNumber() + COW_DISTRIBUTION_BUFFER;
+        double right = xSpread.getUpperBound().getNumber() - COW_DISTRIBUTION_BUFFER;
+        double bottom = ySpread.getLowerBound().getNumber() + COW_DISTRIBUTION_BUFFER;
+        double top = ySpread.getUpperBound().getNumber() - COW_DISTRIBUTION_BUFFER;
+        
+        double width = right - left;
+        double height = top - bottom;
+        
+        // Put at least one cow on corners - randomly choose between top-left/bottom-right and top-right/bottom-left
+        // This ensures that the domain/range is always respected
+        Position bottomCornerCowPos, topCornerCowPos;
+        if (COW_DISTRIBUTION_RANDOM.nextBoolean()) {
+            topCornerCowPos = new Position(left, top);
+            bottomCornerCowPos = new Position(right, bottom);
+        } else {
+            topCornerCowPos = new Position(right, top);
+            bottomCornerCowPos = new Position(left, bottom);
+        }
+        cows.add(new Cow(bottomCornerCowPos, cowImageSupplier.get()));
+        cows.add(new Cow(topCornerCowPos, cowImageSupplier.get()));
+        
+        // Find the area of the intervals, use that to calculate number of cows based on density
+        double area = width * height;
+        int numCows = (int) (COW_DISTRIBUTION_DENSITY * area);
+        
+        // Randomly distribute the cows - TODO maybe use the Halton sequence or something else?
+        for (int i = 0; i < numCows; i++) {
+            cows.add(new Cow(new Position(
+                    width * COW_DISTRIBUTION_RANDOM.nextDouble() + left,
+                    height * COW_DISTRIBUTION_RANDOM.nextDouble() + bottom
+            ), cowImageSupplier.get()));
+        }
+        
         drawCows();
     }
     

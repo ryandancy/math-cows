@@ -27,6 +27,10 @@ public class DomainRange {
         this.intervals = Collections.unmodifiableList(intervals);
     }
     
+    public DomainRange(Interval... intervals) {
+        this(Arrays.stream(intervals).collect(Collectors.toList()));
+    }
+    
     /**
      * Parses a DomainRange. This is like {@link #parse(String, char)}, but for when the input is constant.
      * This method simply does not throw any checked exceptions, instead wrapping them in a RuntimeException

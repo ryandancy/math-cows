@@ -256,7 +256,7 @@ public class Interval {
     /**
      * Thrown when an Interval is initialized with bounds that are equal.
      */
-    public static class EqualBoundsException extends Exception {
+    public static class EqualBoundsException extends RuntimeException {
         public EqualBoundsException(String message) {
             super(message);
         }

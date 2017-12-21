@@ -3,8 +3,11 @@ package ca.keal.raomk;
 // Mostly a test level
 public class Level0 extends Level {
     
+    private static Interval X_INTERVAL = new Interval(1, false, 5, false);
+    private static Interval Y_INTERVAL = new Interval(0, false, 4, false);
+    
     public Level0() {
-        super(DomainRange.parseStatic("3 < x < 4", 'x'), DomainRange.parseStatic("3 < y < 4", 'y'));
+        super(new DomainRange(X_INTERVAL), new DomainRange(Y_INTERVAL));
     }
     
     @Override
@@ -19,8 +22,7 @@ public class Level0 extends Level {
                     + " the math fence."
         );
         
-        // TODO spread cows evenly
-        ranch.addCow(new Cow(new Position(3.5, 3.5), Cow.NORMAL));
+        ranch.distributeCows(X_INTERVAL, Y_INTERVAL, () -> Cow.NORMAL);
     }
     
 }
