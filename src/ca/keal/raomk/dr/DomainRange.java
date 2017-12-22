@@ -1,4 +1,4 @@
-package ca.keal.raomk;
+package ca.keal.raomk.dr;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

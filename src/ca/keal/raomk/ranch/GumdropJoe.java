@@ -1,4 +1,4 @@
-package ca.keal.raomk;
+package ca.keal.raomk.ranch;
 
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
@@ -12,7 +12,7 @@ import lombok.ToString;
 
 @EqualsAndHashCode
 @ToString
-public class GumdropJoe {
+class GumdropJoe {
     
     private static final Image IMAGE = new Image("file:src/assets/gumdrop_joe.png");
     
@@ -41,11 +41,11 @@ public class GumdropJoe {
     @Getter private String text;
     private int lines = 0;
     
-    public GumdropJoe() {
+    GumdropJoe() {
         aspectRatio = IMAGE.getWidth() / IMAGE.getHeight();
     }
     
-    public void setText(String text) {
+    void setText(String text) {
         if (text == null) {
             this.text = null;
             return;
@@ -66,7 +66,7 @@ public class GumdropJoe {
         this.text = String.valueOf(charArray);
     }
     
-    public void draw(Canvas canvas) {
+    void draw(Canvas canvas) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
         // Draw the image

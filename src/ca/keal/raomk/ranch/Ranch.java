@@ -1,5 +1,7 @@
-package ca.keal.raomk;
+package ca.keal.raomk.ranch;
 
+import ca.keal.raomk.dr.DomainRange;
+import ca.keal.raomk.dr.Interval;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

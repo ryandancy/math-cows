@@ -1,5 +1,7 @@
-package ca.keal.raomk;
+package ca.keal.raomk.dr;
 
+import ca.keal.raomk.dr.Interval;
+import ca.keal.raomk.dr.ParseException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

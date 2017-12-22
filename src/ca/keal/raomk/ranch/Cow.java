@@ -1,4 +1,4 @@
-package ca.keal.raomk;
+package ca.keal.raomk.ranch;
 
 import javafx.scene.image.Image;
 import lombok.EqualsAndHashCode;

@@ -1,4 +1,9 @@
-package ca.keal.raomk;
+package ca.keal.raomk.level;
+
+import ca.keal.raomk.dr.DomainRange;
+import ca.keal.raomk.dr.Interval;
+import ca.keal.raomk.ranch.Cow;
+import ca.keal.raomk.ranch.Ranch;
 
 // Mostly a test level
 public class Level0 extends Level {

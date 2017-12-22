@@ -1,4 +1,4 @@
-package ca.keal.raomk;
+package ca.keal.raomk.ranch;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @EqualsAndHashCode
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class FieldItem {
+abstract class FieldItem {
     
     @Getter private Position position;
     @Getter private Image image;
@@ -18,7 +18,7 @@ public abstract class FieldItem {
     private final double maxHeight;
     
     /** Draw the FieldItem. Note: draws it centered. */
-    public void draw(Canvas canvas, RanchView view) {
+    void draw(Canvas canvas, RanchView view) {
         double imageWidth = image.getWidth();
         double imageHeight = image.getHeight();
         double aspectRatio = imageWidth / imageHeight;

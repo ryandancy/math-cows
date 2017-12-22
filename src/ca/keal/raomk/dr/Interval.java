@@ -1,4 +1,4 @@
-package ca.keal.raomk;
+package ca.keal.raomk.dr;
 
 import lombok.Data;
 import lombok.NonNull;
@@ -257,7 +257,7 @@ public class Interval {
      * Thrown when an Interval is initialized with bounds that are equal.
      */
     public static class EqualBoundsException extends RuntimeException {
-        public EqualBoundsException(String message) {
+        private EqualBoundsException(String message) {
             super(message);
         }
     }
