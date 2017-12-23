@@ -5,6 +5,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -100,11 +101,13 @@ class GumdropJoe {
             gc.setTextAlign(TextAlignment.CENTER);
             gc.setTextBaseline(VPos.BASELINE);
             gc.setLineWidth(1);
+            gc.setFill(Color.BLACK);
+            gc.setFont(new Font(12));
             
             // Try to center the text
             double adjustedTextY = circleY - ((lines * APPROX_HEIGHT_ONE_CHARACTER) / 2);
             
-            gc.strokeText(text, circleX, adjustedTextY, MAX_TEXT_WIDTH);
+            gc.fillText(text, circleX, adjustedTextY, MAX_TEXT_WIDTH);
         }
     }
     

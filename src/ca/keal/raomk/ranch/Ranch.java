@@ -53,6 +53,8 @@ public class Ranch {
     private Queue<String> gumdropJoeQueue = new ArrayDeque<>();
     private boolean lastGumdropJoeClearable = true;
     
+    @Getter private PlayAgainButton playAgainButton;
+    
     private Canvas layerBg; // background color, axes, grid, etc.
     private Canvas layerCows;
     private Canvas layerFences;
@@ -60,13 +62,15 @@ public class Ranch {
     
     @Getter private RanchView view;
     
-    public Ranch(Canvas layerBg, Canvas layerCows, Canvas layerFences, Canvas layerGumdropJoe) {
+    public Ranch(Runnable restartFunc, Canvas layerBg, Canvas layerCows, Canvas layerFences, Canvas layerGumdropJoe) {
         this.layerBg = layerBg;
         this.layerCows = layerCows;
         this.layerFences = layerFences;
         this.layerGumdropJoe = layerGumdropJoe;
         
         view = new RanchView(GRID_LINE_GAP, layerBg);
+        
+        playAgainButton = new PlayAgainButton(restartFunc);
         
         // Generate flowers
         Random random = new Random();
@@ -84,8 +88,10 @@ public class Ranch {
         
         // Add listeners to all layers
         for (Canvas layer : new Canvas[] {layerBg, layerCows, layerFences, layerGumdropJoe}) {
-            // Process the Gumdrop Joe queue on click
-            layer.setOnMouseClicked(event -> processGumdropJoeQueue());
+            layer.setOnMouseClicked(event -> {
+                processGumdropJoeQueue();
+                playAgainButton.handle(event);
+            });
         }
     }
     
@@ -215,6 +221,11 @@ public class Ranch {
         gumdropJoeSay(gumdropJoeQueue.remove());
     }
     
+    public void activatePlayAgainButton() {
+        playAgainButton.activate();
+        drawGumdropJoe();
+    }
+    
     public void shiftBy(double shiftX, double shiftY) {
         view.shift(shiftX, shiftY);
         redraw();
@@ -309,6 +320,7 @@ public class Ranch {
     private void drawGumdropJoe() {
         layerGumdropJoe.getGraphicsContext2D().clearRect(0, 0, layerGumdropJoe.getWidth(), layerGumdropJoe.getHeight());
         gumdropJoe.draw(layerGumdropJoe);
+        playAgainButton.drawIfActive(layerGumdropJoe);
     }
     
 }

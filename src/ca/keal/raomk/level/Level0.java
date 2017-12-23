@@ -18,7 +18,7 @@ public class Level0 extends Level {
     @Override
     public void init(Ranch ranch) {
         ranch.gumdropJoeQueue(true,
-                "Oh yippidy do, oh yippidy doh! Hi everyone, I'm Gumdrop Joe!",
+                "Oh yippidy doo, oh yippidy doh! Hi everyone, I'm Gumdrop Joe!",
                 "Now these here math cows, they like to roam. I need your help so they don't run away from home.",
                 "Look to the bottom of the screen, my dude. Type some domains and some ranges to restrict"
                     + " the math cows' moves. \u2193\u2193",

@@ -50,7 +50,7 @@ public class Controller {
     @FXML
     public void initialize() {
         setupExpandNodes();
-        ranch = new Ranch(layerBg, layerCows, layerFences, layerGumdropJoe);
+        ranch = new Ranch(this::restart, layerBg, layerCows, layerFences, layerGumdropJoe);
         
         // Allow dragging the ranch
         for (Canvas layer : new Canvas[] {layerBg, layerCows, layerFences, layerGumdropJoe}) {
@@ -84,7 +84,10 @@ public class Controller {
         ranch.clearGumdropJoeQueue();
         
         if (levelNum >= levels.length) {
-            // Beyond the last level: TODO find something to do beyond the last level
+            // Last level has been beaten: show the play again button
+            ranch.gumdropJoeSay("Good golly oh my, all the levels you've won! Click below to play again if " 
+                    + "you'd like some more math fun.", false);
+            ranch.activatePlayAgainButton();
             return;
         }
         
