@@ -2,79 +2,94 @@
 
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-        xmlns:fx="http://javafx.com/fxml"
-        fx:controller="ca.keal.raomk.Controller"
-        stylesheets="@main.css"
-        prefHeight="600.0" prefWidth="800.0">
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="ca.keal.raomk.Controller"
+           stylesheets="@main.css"
+           prefHeight="600.0" prefWidth="800.0">
     
-    <Canvas fx:id="layerBg"
-            AnchorPane.topAnchor="0"
-            AnchorPane.rightAnchor="0"
-            AnchorPane.leftAnchor="0"
-            AnchorPane.bottomAnchor="0" />
-    <Canvas fx:id="layerCows"
-            AnchorPane.topAnchor="0"
-            AnchorPane.rightAnchor="0"
-            AnchorPane.leftAnchor="0"
-            AnchorPane.bottomAnchor="0" />
-    <Canvas fx:id="layerFences"
-            AnchorPane.topAnchor="0"
-            AnchorPane.rightAnchor="0"
-            AnchorPane.leftAnchor="0"
-            AnchorPane.bottomAnchor="0" />
-    <Canvas fx:id="layerGumdropJoe"
-            AnchorPane.topAnchor="0"
-            AnchorPane.rightAnchor="0"
-            AnchorPane.leftAnchor="0"
-            AnchorPane.bottomAnchor="0" />
+    <AnchorPane prefHeight="600.0" prefWidth="800.0">
+        
+        <Canvas fx:id="layerBg"
+                AnchorPane.topAnchor="0"
+                AnchorPane.rightAnchor="0"
+                AnchorPane.leftAnchor="0"
+                AnchorPane.bottomAnchor="0" />
+        <Canvas fx:id="layerCows"
+                AnchorPane.topAnchor="0"
+                AnchorPane.rightAnchor="0"
+                AnchorPane.leftAnchor="0"
+                AnchorPane.bottomAnchor="0" />
+        <Canvas fx:id="layerFences"
+                AnchorPane.topAnchor="0"
+                AnchorPane.rightAnchor="0"
+                AnchorPane.leftAnchor="0"
+                AnchorPane.bottomAnchor="0" />
+        <Canvas fx:id="layerGumdropJoe"
+                AnchorPane.topAnchor="0"
+                AnchorPane.rightAnchor="0"
+                AnchorPane.leftAnchor="0"
+                AnchorPane.bottomAnchor="0" />
+        
+        <GridPane fx:id="drgrid"
+                AnchorPane.bottomAnchor="10"
+                AnchorPane.leftAnchor="10"
+                AnchorPane.rightAnchor="10"
+                vgap="20" hgap="10">
+            
+            <Text text="Domain:"
+                    GridPane.columnIndex="0"
+                    GridPane.rowIndex="0"
+                    styleClass="drlabel" />
+            <Text text="{ x |"
+                    GridPane.columnIndex="1"
+                    GridPane.rowIndex="0"
+                    styleClass="drDecor" />
+            <TextField fx:id="domainTextBox"
+                    GridPane.columnIndex="2"
+                    GridPane.rowIndex="0"
+                    onAction="#updateDomain"
+                    styleClass="drTextBox" />
+            <Text text=", x &#8712; &#8477; }"
+                  GridPane.columnIndex="3"
+                  GridPane.rowIndex="0"
+                  styleClass="drDecor" />
+            
+            <Text text="Range:"
+                    GridPane.columnIndex="0"
+                    GridPane.rowIndex="1"
+                    styleClass="drlabel" />
+            <Text text="{ y |"
+                  GridPane.columnIndex="1"
+                  GridPane.rowIndex="1"
+                  styleClass="drDecor" />
+            <TextField fx:id="rangeTextBox"
+                    GridPane.columnIndex="2"
+                    GridPane.rowIndex="1"
+                    onAction="#updateRange"
+                    styleClass="drTextBox" />
+            <Text text=", y &#8712; &#8477; }"
+                  GridPane.columnIndex="3"
+                  GridPane.rowIndex="1"
+                  styleClass="drDecor" />
+            
+        </GridPane>
+        
+    </AnchorPane>
     
-    <GridPane fx:id="drgrid"
-            AnchorPane.bottomAnchor="10"
-            AnchorPane.leftAnchor="10"
-            AnchorPane.rightAnchor="10"
-            vgap="20" hgap="10">
-        
-        <Text text="Domain:"
-                GridPane.columnIndex="0"
-                GridPane.rowIndex="0"
-                styleClass="drlabel" />
-        <Text text="{ x |"
-                GridPane.columnIndex="1"
-                GridPane.rowIndex="0"
-                styleClass="drDecor" />
-        <TextField fx:id="domainTextBox"
-                GridPane.columnIndex="2"
-                GridPane.rowIndex="0"
-                onAction="#updateDomain"
-                styleClass="drTextBox" />
-        <Text text=", x &#8712; &#8477; }"
-              GridPane.columnIndex="3"
-              GridPane.rowIndex="0"
-              styleClass="drDecor" />
-        
-        <Text text="Range:"
-                GridPane.columnIndex="0"
-                GridPane.rowIndex="1"
-                styleClass="drlabel" />
-        <Text text="{ y |"
-              GridPane.columnIndex="1"
-              GridPane.rowIndex="1"
-              styleClass="drDecor" />
-        <TextField fx:id="rangeTextBox"
-                GridPane.columnIndex="2"
-                GridPane.rowIndex="1"
-                onAction="#updateRange"
-                styleClass="drTextBox" />
-        <Text text=", y &#8712; &#8477; }"
-              GridPane.columnIndex="3"
-              GridPane.rowIndex="1"
-              styleClass="drDecor" />
-        
-    </GridPane>
+    <ImageView fx:id="victoryImg"
+           StackPane.alignment="CENTER"
+           fitHeight="400"
+           preserveRatio="true"
+           visible="false">
+        <Image url="@/assets/win.png" />
+    </ImageView>
     
-</AnchorPane>
+</StackPane>

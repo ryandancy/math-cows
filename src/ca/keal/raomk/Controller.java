@@ -6,14 +6,22 @@ import ca.keal.raomk.dr.ParseException;
 import ca.keal.raomk.level.Level;
 import ca.keal.raomk.level.Level0;
 import ca.keal.raomk.ranch.Ranch;
+import javafx.animation.Interpolator;
+import javafx.animation.PathTransition;
 import javafx.beans.binding.DoubleBinding;
+import javafx.concurrent.Task;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.util.Duration;
 
 import java.util.function.Consumer;
 
@@ -35,6 +43,9 @@ public class Controller {
     @FXML private GridPane drgrid;
     @FXML private TextField domainTextBox;
     @FXML private TextField rangeTextBox;
+    
+    // Victory image
+    @FXML private ImageView victoryImg;
     
     private Ranch ranch;
     
@@ -70,7 +81,6 @@ public class Controller {
         restart();
     }
     
-    // In a separate method so as to allow restarting at the end if we decide to implement that
     private void restart() {
         levelNum = 0;
         startLevel();
@@ -82,6 +92,8 @@ public class Controller {
         ranch.setRange(null);
         ranch.gumdropJoeClear();
         ranch.clearGumdropJoeQueue();
+        domainTextBox.setText("");
+        rangeTextBox.setText("");
         
         if (levelNum >= levels.length) {
             // Last level has been beaten: show the play again button
@@ -126,10 +138,46 @@ public class Controller {
     private void checkVictory() {
         if (areDRsEqual(ranch.getDomain(), levels[levelNum].getVictoryDomain())
                 && areDRsEqual(ranch.getRange(), levels[levelNum].getVictoryRange())) {
-            // Victory: TODO do some animation or something to signify victory
-            System.out.println("Victory!");
-            levelNum++;
-            startLevel();
+            // Victory - animate/show image, wait for 3 seconds, then unanimate/hide image and proceed
+            
+            // In animation - come up from bottom and overshoot
+            Path path = new Path();
+            path.getElements().addAll(
+                    new MoveTo(Main.WIDTH/2 - 190, Main.HEIGHT + 300),
+                    new LineTo(Main.WIDTH/2 - 190, Main.HEIGHT/2 - 110)
+            );
+            PathTransition anim = new PathTransition();
+            anim.setPath(path);
+            anim.setNode(victoryImg);
+            anim.setInterpolator(Interpolator.EASE_OUT);
+            anim.setDuration(Duration.millis(1500));
+            
+            // Play the animation
+            victoryImg.setVisible(true);
+            anim.play();
+            
+            // Wait for 3 seconds after start of animation
+            Task<Void> sleeper = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    Thread.sleep(4000);
+                    return null;
+                }
+                
+                @Override
+                protected void succeeded() {
+                    // Reverse the animation, play it double speed!
+                    anim.setRate(-2);
+                    anim.setOnFinished(event -> {
+                        // Hide image, go to next level
+                        victoryImg.setVisible(false);
+                        levelNum++;
+                        startLevel();
+                    });
+                    anim.play();
+                }
+            };
+            new Thread(sleeper).start();
         }
     }
     
