@@ -6,6 +6,7 @@ import ca.keal.raomk.ranch.Cow;
 import ca.keal.raomk.ranch.Position;
 import ca.keal.raomk.ranch.Ranch;
 
+// Parabola opening up
 public class Level4 extends Level {
     
     private static final int PARABOLA_OV = -1;
@@ -22,7 +23,7 @@ public class Level4 extends Level {
                 "I'll tell you something else that's fun: the equation of this parabola is y = 0.2x² - 1."
         );
         
-        for (int x = -500; x < 500; x++) {
+        for (int x = -500; x <= 500; x++) {
             double y = quadraticFunction(x);
             if (y < 500) {
                 ranch.addCow(new Cow(new Position(x, y), x == 0 ? Cow.DIN : Cow.NORMAL));

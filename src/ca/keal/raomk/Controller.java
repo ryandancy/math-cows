@@ -11,6 +11,7 @@ import ca.keal.raomk.level.Level3;
 import ca.keal.raomk.level.Level4;
 import ca.keal.raomk.level.Level5;
 import ca.keal.raomk.level.Level6;
+import ca.keal.raomk.level.Level7;
 import ca.keal.raomk.ranch.Ranch;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
@@ -63,6 +64,7 @@ public class Controller {
             new Level4(),
             new Level5(),
             new Level6(),
+            new Level7(),
     };
     private int levelNum;
     
@@ -133,7 +135,7 @@ public class Controller {
             // text box was cleared, not an error
             updater.accept(null);
             checkVictory();
-            textBox.pseudoClassStateChanged(ERROR_CLASS, true);
+            textBox.pseudoClassStateChanged(ERROR_CLASS, false);
             return;
         }
         

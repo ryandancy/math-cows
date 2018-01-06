@@ -5,6 +5,7 @@ import ca.keal.raomk.ranch.Cow;
 import ca.keal.raomk.ranch.Position;
 import ca.keal.raomk.ranch.Ranch;
 
+// Parabola opening downwards + restricted
 public class Level5 extends Level {
     
     private static final double ZERO1 = -3;
@@ -26,7 +27,7 @@ public class Level5 extends Level {
                         + "You'll make the connection."
         );
     
-        for (int x = -500; x < 500; x++) {
+        for (int x = -500; x <= 500; x++) {
             double y = quadraticFunction(x);
             if (y <= MAX_Y && y > -500) {
                 ranch.addCow(new Cow(new Position(x, y), y == MAX_Y ? Cow.SPIDER : Cow.NORMAL));

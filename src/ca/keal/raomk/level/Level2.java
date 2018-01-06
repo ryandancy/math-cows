@@ -5,6 +5,7 @@ import ca.keal.raomk.dr.Interval;
 import ca.keal.raomk.ranch.Cow;
 import ca.keal.raomk.ranch.Ranch;
 
+// Rectangle infinite to the right, introduce unbounded
 public class Level2 extends Level {
     
     private static final int MIN_X = 3;

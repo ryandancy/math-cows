@@ -5,7 +5,7 @@ import ca.keal.raomk.dr.Interval;
 import ca.keal.raomk.ranch.Cow;
 import ca.keal.raomk.ranch.Ranch;
 
-// Mostly a test level
+// Mostly a test level, rectangle, introduce domain/range boxes
 public class Level0 extends Level {
     
     private static Interval X_INTERVAL = new Interval(1, false, 5, false);

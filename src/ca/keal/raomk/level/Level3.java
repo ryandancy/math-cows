@@ -5,6 +5,7 @@ import ca.keal.raomk.dr.Interval;
 import ca.keal.raomk.ranch.Cow;
 import ca.keal.raomk.ranch.Ranch;
 
+// Full field below y=MAX_Y
 public class Level3 extends Level {
     
     private static final int MAX_Y = 5;

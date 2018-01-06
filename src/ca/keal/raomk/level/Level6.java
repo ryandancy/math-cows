@@ -7,6 +7,7 @@ import ca.keal.raomk.ranch.Position;
 import ca.keal.raomk.ranch.Ranch;
 import javafx.scene.image.Image;
 
+// Root curve restricted
 public class Level6 extends Level {
     
     private static final double MIN_X = 4;

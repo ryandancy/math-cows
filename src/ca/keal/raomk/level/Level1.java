@@ -5,6 +5,7 @@ import ca.keal.raomk.dr.Interval;
 import ca.keal.raomk.ranch.Cow;
 import ca.keal.raomk.ranch.Ranch;
 
+// Rectangle, introduce scrolling
 public class Level1 extends Level {
     
     private static final Interval X_INTERVAL = new Interval(-4, true, 2, true);
