@@ -89,8 +89,10 @@ public class Ranch {
         // Add listeners to all layers
         for (Canvas layer : new Canvas[] {layerBg, layerCows, layerFences, layerGumdropJoe}) {
             layer.setOnMouseClicked(event -> {
-                processGumdropJoeQueue();
-                playAgainButton.handle(event);
+                if (event.isStillSincePress()) {
+                    processGumdropJoeQueue();
+                    playAgainButton.handle(event);
+                }
             });
         }
     }
