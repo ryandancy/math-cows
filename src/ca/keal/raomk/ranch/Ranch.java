@@ -16,7 +16,6 @@ import lombok.ToString;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
@@ -102,11 +101,6 @@ public class Ranch {
         drawCows();
     }
     
-    public void addCows(Collection<Cow> cows) {
-        this.cows.addAll(cows);
-        drawCows();
-    }
-    
     /** Distribute cows throughout the range defined by xSpread/ySpread. */
     public void distributeCows(double density, Interval xSpread, Interval ySpread, Supplier<Image> cowImageSupplier) {
         double left = xSpread.getLowerBound().getNumber() + COW_DISTRIBUTION_BUFFER;
@@ -178,14 +172,9 @@ public class Ranch {
         drawFences();
     }
     
-    public void gumdropJoeSay(String text) {
+    private void gumdropJoeSay(String text) {
         gumdropJoe.setText(text);
         drawGumdropJoe();
-    }
-    
-    public void gumdropJoeSay(String text, boolean lastClearable) {
-        lastGumdropJoeClearable = lastClearable;
-        gumdropJoeSay(text);
     }
     
     public void gumdropJoeClear() {

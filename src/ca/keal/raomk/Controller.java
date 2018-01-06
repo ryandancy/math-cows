@@ -9,6 +9,8 @@ import ca.keal.raomk.level.Level1;
 import ca.keal.raomk.level.Level2;
 import ca.keal.raomk.level.Level3;
 import ca.keal.raomk.level.Level4;
+import ca.keal.raomk.level.Level5;
+import ca.keal.raomk.level.Level6;
 import ca.keal.raomk.ranch.Ranch;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
@@ -59,6 +61,8 @@ public class Controller {
             new Level2(),
             new Level3(),
             new Level4(),
+            new Level5(),
+            new Level6(),
     };
     private int levelNum;
     
@@ -105,8 +109,8 @@ public class Controller {
         
         if (levelNum >= levels.length) {
             // Last level has been beaten: show the play again button
-            ranch.gumdropJoeSay("Good golly oh my, all the levels you've won! Click below to play again if " 
-                    + "you'd like some more math fun.", false);
+            ranch.gumdropJoeQueue(false, "Good golly oh my, all the levels you've won! Click below to play again if " 
+                    + "you'd like some more math fun.");
             ranch.activatePlayAgainButton();
             return;
         }
