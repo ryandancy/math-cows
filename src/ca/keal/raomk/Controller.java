@@ -5,6 +5,8 @@ import ca.keal.raomk.dr.Interval;
 import ca.keal.raomk.dr.ParseException;
 import ca.keal.raomk.level.Level;
 import ca.keal.raomk.level.Level0;
+import ca.keal.raomk.level.Level1;
+import ca.keal.raomk.level.Level2;
 import ca.keal.raomk.ranch.Ranch;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
@@ -50,7 +52,9 @@ public class Controller {
     private Ranch ranch;
     
     private Level[] levels = {
-            new Level0()
+            new Level0(),
+            new Level1(),
+            new Level2(),
     };
     private int levelNum;
     
