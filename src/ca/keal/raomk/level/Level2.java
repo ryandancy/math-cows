@@ -22,9 +22,8 @@ public class Level2 extends Level {
                 "So make sure not to put an upper bound on the domain, and then your efforts won't be in vain."
         );
         
-        ranch.distributeCows(new Interval(MIN_X, true, 500, true), Y_INTERVAL,
+        ranch.distributeCows(0.7, new Interval(MIN_X, true, 500, true), Y_INTERVAL,
                 () -> Math.random() < 0.75 ? Cow.NORMAL : Cow.SURF);
     }
-    
     
 }

@@ -27,7 +27,7 @@ public class Level0 extends Level {
                     + " the math fence."
         );
         
-        ranch.distributeCows(X_INTERVAL, Y_INTERVAL, () -> Cow.NORMAL);
+        ranch.distributeCows(1.3, X_INTERVAL, Y_INTERVAL, () -> Cow.NORMAL);
     }
     
 }

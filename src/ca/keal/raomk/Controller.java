@@ -4,9 +4,7 @@ import ca.keal.raomk.dr.DomainRange;
 import ca.keal.raomk.dr.Interval;
 import ca.keal.raomk.dr.ParseException;
 import ca.keal.raomk.level.Level;
-import ca.keal.raomk.level.Level0;
-import ca.keal.raomk.level.Level1;
-import ca.keal.raomk.level.Level2;
+import ca.keal.raomk.level.Level4;
 import ca.keal.raomk.ranch.Ranch;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
@@ -52,9 +50,11 @@ public class Controller {
     private Ranch ranch;
     
     private Level[] levels = {
-            new Level0(),
+            /*new Level0(),
             new Level1(),
             new Level2(),
+            new Level3(),*/
+            new Level4(),
     };
     private int levelNum;
     
@@ -136,6 +136,8 @@ public class Controller {
         } catch (ParseException | Interval.EqualBoundsException e) {
             updater.accept(null);
             textBox.pseudoClassStateChanged(ERROR_CLASS, true);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            // checkVictory() threw because we're past the last level, it's fine so ignore it
         }
     }
     

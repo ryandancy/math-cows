@@ -108,7 +108,7 @@ public class Ranch {
     }
     
     /** Distribute cows throughout the range defined by xSpread/ySpread. */
-    public void distributeCows(Interval xSpread, Interval ySpread, Supplier<Image> cowImageSupplier) {
+    public void distributeCows(double density, Interval xSpread, Interval ySpread, Supplier<Image> cowImageSupplier) {
         double left = xSpread.getLowerBound().getNumber() + COW_DISTRIBUTION_BUFFER;
         double right = xSpread.getUpperBound().getNumber() - COW_DISTRIBUTION_BUFFER;
         double bottom = ySpread.getLowerBound().getNumber() + COW_DISTRIBUTION_BUFFER;
@@ -132,7 +132,7 @@ public class Ranch {
         
         // Find the area of the intervals, use that to calculate number of cows based on density
         double area = width * height;
-        int numCows = (int) (COW_DISTRIBUTION_DENSITY * area);
+        int numCows = (int) (density * COW_DISTRIBUTION_DENSITY * area);
         
         // Randomly distribute the cows - TODO maybe use the Halton sequence or something else?
         for (int i = 0; i < numCows; i++) {

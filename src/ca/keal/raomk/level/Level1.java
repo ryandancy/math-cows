@@ -23,7 +23,7 @@ public class Level1 extends Level {
                 "Just one more thing: these cows can touch the fence! Use '<=' or '>=' to be inclusive, hence."
         );
         
-        ranch.distributeCows(X_INTERVAL, Y_INTERVAL, () -> Cow.NORMAL);
+        ranch.distributeCows(1.3, X_INTERVAL, Y_INTERVAL, () -> Cow.NORMAL);
     }
     
 }
