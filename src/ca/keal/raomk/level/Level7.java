@@ -1,5 +1,6 @@
 package ca.keal.raomk.level;
 
+import ca.keal.raomk.Utils;
 import ca.keal.raomk.dr.DomainRange;
 import ca.keal.raomk.dr.Interval;
 import ca.keal.raomk.ranch.Cow;
@@ -36,20 +37,16 @@ public class Level7 extends Level {
     }
     
     private static Image getCow(double y) {
-        if (approxEqual(y, AXIS - AMPLITUDE) || approxEqual(y, AXIS + AMPLITUDE)) {
+        if (Utils.approxEqual(y, AXIS - AMPLITUDE) || Utils.approxEqual(y, AXIS + AMPLITUDE)) {
             // dins on the max and min
             return Cow.DIN;
-        } else if (approxEqual(y, AXIS)) {
+        } else if (Utils.approxEqual(y, AXIS)) {
             // surfs in the middle
             return Cow.SURF;
         } else {
             // all others normal
             return Cow.NORMAL;
         }
-    }
-    
-    private static boolean approxEqual(double a, double b) {
-        return Math.abs(a - b) < 0.005;
     }
     
 }

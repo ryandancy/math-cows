@@ -17,7 +17,7 @@ public class Level4 extends Level {
     
     @Override
     public void init(Ranch ranch) {
-        ranch.gumdropJoeQueue(false,
+        ranch.gumdropJoeQueue(true,
                 "Oh hey, watch out you math guy! The cows are forming a parabola all the way to the sky!",
                 "Just one sec, a word of warning for you: the cows appear in the middle of their coordinates, true!",
                 "I'll tell you something else that's fun: the equation of this parabola is y = 0.2x² - 1."

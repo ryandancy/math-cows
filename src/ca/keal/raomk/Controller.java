@@ -12,6 +12,8 @@ import ca.keal.raomk.level.Level4;
 import ca.keal.raomk.level.Level5;
 import ca.keal.raomk.level.Level6;
 import ca.keal.raomk.level.Level7;
+import ca.keal.raomk.level.Level8;
+import ca.keal.raomk.level.Level9;
 import ca.keal.raomk.ranch.Ranch;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
@@ -65,6 +67,8 @@ public class Controller {
             new Level5(),
             new Level6(),
             new Level7(),
+            new Level8(),
+            new Level9(),
     };
     private int levelNum;
     
