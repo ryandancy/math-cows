@@ -1,5 +1,6 @@
 package ca.keal.raomk.ranch;
 
+import ca.keal.raomk.Utils;
 import ca.keal.raomk.dr.Interval;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -26,7 +27,7 @@ public class Fence {
     private static final double ARROW_BUFFER = 2.5;
     
     private static Image getArrowImage(String name) {
-        return new Image("file:src/assets/fence_arrow/" + name + ".png");
+        return Utils.getImageAsset("fence_arrow/" + name);
     }
     
     private static final double PCT_GRID_LINE_GAP_FENCE_TAKES_UP = 0.85;

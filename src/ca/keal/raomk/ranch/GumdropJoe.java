@@ -1,5 +1,6 @@
 package ca.keal.raomk.ranch;
 
+import ca.keal.raomk.Utils;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -15,7 +16,7 @@ import lombok.ToString;
 @ToString
 class GumdropJoe {
     
-    private static final Image IMAGE = new Image("file:src/assets/gumdrop_joe.png");
+    private static final Image IMAGE = Utils.getImageAsset("gumdrop_joe");
     
     private static final double BUFFER = 10; // the buffer from the bottom left to draw
     private static final double WIDTH = 150; // width of the final GDJ image - height will be calculated

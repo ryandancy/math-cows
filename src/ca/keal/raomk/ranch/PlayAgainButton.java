@@ -1,5 +1,6 @@
 package ca.keal.raomk.ranch;
 
+import ca.keal.raomk.Utils;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -18,7 +19,7 @@ import lombok.ToString;
 @ToString
 class PlayAgainButton implements EventHandler<MouseEvent> {
     
-    private static final Image IMAGE = new Image("file:src/assets/play_again.png");
+    private static final Image IMAGE = Utils.getImageAsset("play_again");
     
     private static final double BOTTOM_BUFFER = 15;
     private static final double HEIGHT = 50;
