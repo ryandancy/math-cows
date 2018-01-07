@@ -39,8 +39,8 @@ public class Ranch {
     private static final double COW_DISTRIBUTION_BUFFER = 0.5;
     private static final Random COW_DISTRIBUTION_RANDOM = new Random();
     
-    private Flower[] flowers = new Flower[80];
-    private static final double MAX_FLOWER_DIST = 40;
+    private Flower[] flowers = new Flower[10000];
+    private static final double MAX_FLOWER_DIST = 500;
     
     @Getter private DomainRange domain = null;
     @Getter private DomainRange range = null;
