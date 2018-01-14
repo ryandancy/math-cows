@@ -1,12 +1,10 @@
 package ca.keal.raomk.dr;
 
-import ca.keal.raomk.dr.DomainRange;
-import ca.keal.raomk.dr.Interval;
-import ca.keal.raomk.dr.ParseException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -24,7 +22,7 @@ class DomainRangeTest {
         DomainRange dr = new DomainRange(intervals);
         assertAll(
                 () -> assertEquals(1, dr.getIntervals().size()),
-                () -> assertEquals(new Interval(-10, false, 12, false), dr.getIntervals().get(0))
+                () -> assertEquals(new Interval(-10, false, 12, false), dr.getIntervals().toArray()[0])
         );
     }
     
@@ -37,7 +35,7 @@ class DomainRangeTest {
         DomainRange dr = new DomainRange(intervals);
         assertAll(
                 () -> assertEquals(1, dr.getIntervals().size()),
-                () -> assertEquals(new Interval(-10, true, 12, false), dr.getIntervals().get(0))
+                () -> assertEquals(new Interval(-10, true, 12, false), dr.getIntervals().toArray()[0])
         );
     }
     
@@ -53,10 +51,12 @@ class DomainRangeTest {
         DomainRange dr = new DomainRange(intervals);
         assertAll(
                 () -> assertEquals(4, dr.getIntervals().size()),
-                () -> assertEquals(new Interval(2, true, 12, false), dr.getIntervals().get(1)),
-                () -> assertEquals(new Interval(-10, true, -2, false), dr.getIntervals().get(0)),
-                () -> assertEquals(new Interval(14, true, 20, true), dr.getIntervals().get(2)),
-                () -> assertEquals(new Interval(21, true, 25, false), dr.getIntervals().get(3))
+                () -> assertEquals(dr.getIntervals(), new HashSet<>(Arrays.asList(
+                        new Interval(2, true, 12, false),
+                        new Interval(-10, true, -2, false),
+                        new Interval(14, true, 20, true),
+                        new Interval(21, true, 25, false)
+                )))
         );
     }
     
@@ -66,7 +66,7 @@ class DomainRangeTest {
                 new Interval(-10, true, 0, false),
                 new Interval(0, false, 10, true)));
         DomainRange dr = new DomainRange(intervals);
-        assertEquals(intervals, dr.getIntervals());
+        assertEquals(new HashSet<>(intervals), dr.getIntervals());
     }
     
     @Test
@@ -79,7 +79,7 @@ class DomainRangeTest {
         DomainRange dr = new DomainRange(intervals);
         assertAll(
                 () -> assertEquals(1, dr.getIntervals().size()),
-                () -> assertEquals(dr.getIntervals().get(0),
+                () -> assertEquals(dr.getIntervals().toArray()[0],
                         new Interval(Interval.Bound.NEG_INFINITY, Interval.Bound.INFINITY))
         );
     }
@@ -95,10 +95,10 @@ class DomainRangeTest {
         DomainRange dr = new DomainRange(intervals);
         assertAll(
                 () -> assertEquals(2, dr.getIntervals().size()),
-                () -> assertEquals(dr.getIntervals().get(0),
-                        new Interval(Interval.Bound.NEG_INFINITY, new Interval.Bound(11, true))),
-                () -> assertEquals(dr.getIntervals().get(1),
-                        new Interval(new Interval.Bound(12, true), Interval.Bound.INFINITY))
+                () -> assertEquals(dr.getIntervals(), new HashSet<>(Arrays.asList(
+                        new Interval(Interval.Bound.NEG_INFINITY, new Interval.Bound(11, true)),
+                        new Interval(new Interval.Bound(12, true), Interval.Bound.INFINITY)
+                )))
         );
     }
     

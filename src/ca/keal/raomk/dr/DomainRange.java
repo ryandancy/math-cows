@@ -6,8 +6,9 @@ import lombok.NonNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -20,11 +21,11 @@ public class DomainRange {
     private static final String LEGAL_TOKENS_REGEX = "<|≤|<=|>|≥|>=|or";
     
     /** The list of intervals or'd together */
-    @Getter private final List<Interval> intervals;
+    @Getter private final Set<Interval> intervals;
     
     public DomainRange(List<Interval> intervals) {
         simplifyIntervalList(intervals);
-        this.intervals = Collections.unmodifiableList(intervals);
+        this.intervals = new HashSet<>(intervals);
     }
     
     public DomainRange(Interval... intervals) {
@@ -139,17 +140,13 @@ public class DomainRange {
         }
     }
     
-    public boolean contains(double value) {
-        // Do any of the intervals contain value?
-        return intervals.stream().anyMatch(interval -> interval.contains(value));
-    }
-    
     @Override
     public String toString() {
         // All the interval strings with " or " in between
         return intervals.stream()
                 .map(Interval::toString)
-                .reduce("", (interval1, interval2) -> interval1 + " or " + interval2);
+                .reduce((interval1, interval2) -> interval1 + " or " + interval2)
+                .orElse("");
     }
     
 }

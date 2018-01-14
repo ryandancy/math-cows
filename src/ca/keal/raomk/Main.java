@@ -14,7 +14,7 @@ public class Main extends Application {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
     
-    private static final String APP_NAME = "Gumdrop Joe's \"Home on the Range\": a Mathematical Adventure";
+    private static final String APP_NAME = "Gumdrop Joe's \"Home on the Range\": a Mathemagical Adventure";
     
     public static void main(String[] args) {
         launch(args);
