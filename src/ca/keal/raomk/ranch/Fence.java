@@ -147,14 +147,14 @@ public class Fence {
     
     enum Orientation {
         
-        VERTICAL("file:src/assets/fence_vertical.png", 1.0),
-        HORIZONTAL("file:src/assets/fence_horizontal.png", 0.65);
+        VERTICAL("fence_vertical", 1.0),
+        HORIZONTAL("fence_horizontal", 0.65);
         
         private final Image image;
         private final double scaleFactor; // adjust to make vertical and horizontal fences look the same size
         
-        Orientation(String url, double scaleFactor) {
-            image = new Image(url);
+        Orientation(String path, double scaleFactor) {
+            image = Utils.getImageAsset(path);
             this.scaleFactor = scaleFactor;
         }
         

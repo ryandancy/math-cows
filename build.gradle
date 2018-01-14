@@ -44,4 +44,16 @@ launch4j {
     mainClassName = 'ca.keal.raomk.Main'
     icon = "${projectDir}/icon.ico"
     textVersion = '1.0'
+    if (project.hasProperty('bundleJre')) {
+        bundledJrePath = 'jre'
+    }
+}
+
+// a hack so that Mr MacIntyre doesn't have to install Java on a school computer
+// ignore if you're not me
+if (project.hasProperty('bundleJre')) {
+    copy {
+        from "$System.env.ProgramFiles/Java/jre1.8.0_144"
+        into "${projectDir}/build/launch4j/jre"
+    }
 }
